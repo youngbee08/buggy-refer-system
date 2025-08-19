@@ -7,3 +7,17 @@
   --color-accClrYellow: #e5aa2d;
   --color-accClrPink: #e487bc;
 }
+
+@font-face {
+  font-family: 'Ttnorm';
+  src: url('./assets/fonts/TTNorms-ExtraBoldItalic.otf') format('woff2');
+  font-weight: bold;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Ttnorm2';
+  src: url('./assets/fonts/TTNorms-Medium.otf') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
