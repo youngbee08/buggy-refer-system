@@ -1,1 +1,9 @@
 @import "tailwindcss";
+
+@theme {
+  --color-pryClr: #796fab;
+  --color-secClrWhite: #eff6f8;
+  --color-secClrBlack: #282828;
+  --color-accClrYellow: #e5aa2d;
+  --color-accClrPink: #e487bc;
+}
