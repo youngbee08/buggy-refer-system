@@ -1,9 +1,12 @@
 import React from 'react'
+import assets from '../../assets/assests'
 
 const SlideNav = () => {
   return (
     <div>
-      <h1 className=''>zgdjosdiysdi</h1>
+      <div>
+        <img src={assets.logo} alt="" />
+      </div>
     </div>
   )
 }
