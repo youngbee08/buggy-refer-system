@@ -4,8 +4,8 @@ import assets from '../../assets/assests'
 const SlideNav = () => {
   return (
     <div>
-      <div>
-        <img src={assets.logo} alt="" />
+      <div className='bg-pryClr'>
+        <img src={assets.logo} alt="" className='' />
       </div>
     </div>
   )
