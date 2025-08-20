@@ -1,6 +1,6 @@
 import React from 'react'
 
-const BottomNav = () => {
+const Profile = () => {
   return (
     <div>
       
@@ -8,4 +8,4 @@ const BottomNav = () => {
   )
 }
 
-export default BottomNav
+export default Profile

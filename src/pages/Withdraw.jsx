@@ -1,7 +1,6 @@
 import React from 'react'
 
-
-const Dashboard = () => {
+const Withdraw = () => {
   return (
     <div>
       
@@ -9,4 +8,4 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard
+export default Withdraw
