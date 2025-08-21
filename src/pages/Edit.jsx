@@ -1,5 +1,5 @@
 import React from 'react'
-import assets from '../../assets/assests'
+import assets from '../assets/assests'
 import { Link } from 'react-router-dom'
 
 const Edit = ({image,fields,formSubject,formText,otherActions,btnText,formAction,bg,otherTextcol,refCol,imgWid,smBg}) => {

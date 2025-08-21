@@ -22,22 +22,26 @@ const Bottombar = () => {
     <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-pryClr shadow-md h-20 flex justify-around items-center z-50 ">
       <Link to="/dashboard" className={linkClasses("/dashboard")}>
         <MdDashboard size={28} />
+        <span>Dashboard</span>
       </Link>
       <Link to="/history" className={linkClasses("/history")}>
         <MdHistory size={28} />
+        <span>History</span>
       </Link>
       <Link to="/withdraw" className={linkClasses("/withdraw")}>
         <MdAccountBalanceWallet size={28} />
+        <span>Withdraw</span>
       </Link>
       <Link to="/refer" className={linkClasses("/refer")}>
         <MdGroupAdd size={28} />
+        <span>Refer</span>
       </Link>
       <Link to="/profile" className={linkClasses("/profile")}>
         <MdPerson size={28} />
+        <span>Profile</span>
       </Link>
     </div>
   );
 };
 
 export default Bottombar;
-

@@ -12,7 +12,7 @@ const Maindashboard = ({ children }) => {
       {/* Main Content */}
       <div className="flex-1 ">
         <TopBar />
-        <div className="">
+        <div className="p-4">
           {children}
         </div>
       </div>
