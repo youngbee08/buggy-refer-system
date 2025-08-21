@@ -1,9 +1,10 @@
 import React from 'react'
+import Ongoing from './subpage/Ongoing'
 
 const Refer = () => {
   return (
-    <div>
-      
+    <div className=''>
+      <Ongoing/>
     </div>
   )
 }

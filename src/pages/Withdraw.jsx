@@ -4,8 +4,8 @@ import { useState } from 'react'
 import WithdrawPopup from '../components/WithdrawPopup';
 
 const Withdraw = () => {
-  const [toggleWithdraw,setToggleWithdraw] = useState(false);
-  const [withdrawPopup,setWithdrawPopup] = useState(false);
+  const [toggleWithdraw, setToggleWithdraw] = useState(false);
+  const [withdrawPopup, setWithdrawPopup] = useState(false);
   const [toggleBalance,setToggleBalance] = useState(true);
   return (
     <div className='flex flex-col gap-6 pb-[6rem]'>
