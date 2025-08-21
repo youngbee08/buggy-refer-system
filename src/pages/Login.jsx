@@ -20,7 +20,7 @@ const Login = () => {
   ]
   return (
     <>
-      <Edit image={assets.login} fields={fields} formSubject={"user login"} formText={"Welcome Back Champ 🍾🥂🏆"} otherActions={["Dont have an Account?","Register"]} btnText={"login"} formAction={()=>alert("Signed In successfully")} bg={"white"} otherTextcol={"black"} refCol={"black"} imgWid={"80%"} smBg={"../../../public/login.png"}/>
+      <Edit image={assets.login} fields={fields} formSubject="user login" formText="Welcome Back Champ 🍾🥂🏆" otherActions={["Dont have an Account?", "Register", ""]} btnText={"login"} formAction={()=>alert("Signed In successfully")} bg="white" otherTextcol="black" refCol="black" imgWid={"80%"} smBg={"../../../public/login.png"}/>
     </>
   )
 }

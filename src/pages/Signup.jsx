@@ -32,7 +32,7 @@ const Signup = () => {
   ]
   return (
     <>
-      <Edit image={assets.signUp} fields={fields} formSubject={"user registration"} formText={"lets Start this journey and make money"} otherActions={["Already have an account?","Login"]} btnText={"Register"} formAction={()=>alert("Signed Up successfully")} bg={"black"} imgWid={"70%"} smBg={"../../../public/signup-logo.png"}/>
+      <Edit image={assets.signUp} fields={fields} formSubject={"user registration"} formText={"lets Start this journey and make money"} otherActions={["Already have an account?","Login","login"]} btnText={"Register"} formAction={()=>alert("Signed Up successfully")} bg={"black"} imgWid={"70%"} smBg={"../../../public/signup-logo.png"}/>
     </>
   )
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import assets from '../../assets/assests'
+import assets from '../assets/assests'
 import { Link } from 'react-router-dom'
 
 const Edit = ({image,fields,formSubject,formText,otherActions,btnText,formAction,bg,otherTextcol,refCol,imgWid,smBg}) => {
@@ -33,7 +33,7 @@ const Edit = ({image,fields,formSubject,formText,otherActions,btnText,formAction
             ))
           }
           <button className='w-full p-2 bg-secClrWhite rounded-full font-bold text-xl lg:text-[24px] cursor-pointer text-black'>{btnText}</button>
-          <h3 className={`lg:absolute bottom-[-2rem] text-${otherTextcol} text-center w-[89%] text-base lg:text-xl font-semibold`}>{otherActions[0]} <Link to={`/${otherActions[1].toLowerCase()}`} className='text-blue-800 hover:underline'>{otherActions[1]}</Link></h3>
+          <h3 className={`lg:absolute bottom-[-2rem] text-${otherTextcol} text-center w-[89%] text-base lg:text-xl font-semibold`}>{otherActions[0]} <Link to={`/${otherActions[2]}`} className='text-blue-800 hover:underline'>{otherActions[1]}</Link></h3>
         </div>
       </form>
     </div>
