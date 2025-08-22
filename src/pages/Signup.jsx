@@ -2,8 +2,10 @@ import React from 'react'
 import Edit from './Edit'
 import { LockKeyholeIcon, Mail, User, UserPenIcon } from 'lucide-react'
 import assets from '../assets/assests'
+import { useNavigate } from 'react-router-dom'
 
 const Signup = () => {
+  const navigate = useNavigate()
   const fields = [
     {
       placeholder:"Fullname",
@@ -30,9 +32,13 @@ const Signup = () => {
       type:"password"
     },
   ]
+  const handleSubmit = (e)=>{
+    e.preventDefault()
+    navigate("/setup-pin")
+  };
   return (
     <>
-      <Edit image={assets.signUp} fields={fields} formSubject={"user registration"} formText={"lets Start this journey and make money"} otherActions={["Already have an account?","Login","login"]} btnText={"Register"} formAction={()=>alert("Signed Up successfully")} bg={"black"} imgWid={"70%"} smBg={"../../../public/signup-logo.png"}/>
+      <Edit image={assets.signUp} fields={fields} formSubject={"user registration"} formText={"lets Start this journey and make money"} otherActions={["Already have an account?","Login","login"]} btnText={"Register"} formAction={handleSubmit} bg={"black"} imgWid={"90%"} smBg={"../../../public/signup-logo.png"}/>
     </>
   )
 }
