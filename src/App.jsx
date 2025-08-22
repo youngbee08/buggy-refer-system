@@ -11,6 +11,7 @@ import History from "./pages/History";
 import Withdraw from "./pages/Withdraw";
 import Refer from "./pages/Refer";
 import Profile from "./pages/Profile";
+import SetupPin from "./pages/subpage/SetPin";
 
 // import Signup from "./pages/Signup";
 // import Login from "./pages/Login";
@@ -23,6 +24,7 @@ function App() {
       <Route path="/login" element={<Login />} />
       {/* <Route path="/login" element={<Login />} /> */}
       <Route path="/signup" element={<Signup />} />
+      <Route path="/setup-pin" element={<SetupPin />} />
       <Route
         path={"/dashboard"}
         element={<Maindashboard children={<Dashboard />} />}

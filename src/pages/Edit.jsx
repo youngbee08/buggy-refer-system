@@ -4,9 +4,8 @@ import { Link } from 'react-router-dom'
 
 const Edit = ({image,fields,formSubject,formText,otherActions,btnText,formAction,bg,otherTextcol,refCol,imgWid,smBg}) => {
   return (
-    <div className={`overflowy-y-hidden lg:overflow-y-auto bg-[url(${smBg})] lg:bg-[url()]  bg-cover lg:bg-${bg} h-[100vh] w-full flex justify-between text-secClrWhite items-center`} style={{
-    backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.4)), url(${window.innerWidth >= 1024 ? bg : smBg})`
-    }}>
+    <div className={`overflowy-y-hidden lg:overflow-y-auto bg-[url(${smBg})] bg-cover lg:bg-${bg} h-[100vh] w-full flex justify-between text-secClrWhite items-center`} style={{
+    backgroundImage: `${window.innerWidth <= 800 ? `linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.4)), url(${smBg})` : ''}`, backgroundRepeat:"no-repeat", backgroundPosition:"center", backgroundSize:"cover"}}>
       <div className="w-[60%] lg:flex flex-col h-full relative hidden">
         <img src={assets.logo2} alt="logo" className='absolute top-[2rem] w-1/3 left-[2rem]'/>
         <img src={image} alt="signup img" className={`w-[${imgWid}] h-[100%] object-cover`} />
@@ -16,7 +15,7 @@ const Edit = ({image,fields,formSubject,formText,otherActions,btnText,formAction
           <h2 style={{lineHeight:"1rem"}}>Earn</h2>
         </div>
       </div>
-      <form onSubmit={formAction} className='lg:bg-pryClr w-full lg:w-[40%] rounded-[10px] m-6 pt-6 pb-9 lg:shadow-[3px_3px_14px_#796fab] flex flex-col lg:h-fit lg:relative gap-6 items-center'>
+      <form onSubmit={formAction} className='lg:bg-pryClr w-full lg:w-[60%] rounded-[10px] m-6 pt-6 pb-9 lg:shadow-[3px_3px_14px_#796fab] flex flex-col lg:h-fit lg:relative gap-6 items-center'>
         <div className="flex flex-col gap-4 items-center w-full">
           <h2 className='text-4xl lg:text-5xl text-secClrWhite font-bold'>{formSubject}</h2>
           <p className='text-accClrYellow text-base lg:text-[18px] font-[400]'>{formText}</p>
