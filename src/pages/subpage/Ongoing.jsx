@@ -1,105 +1,71 @@
-import React, { useState } from "react";
-import assets from "../../assets/assests";
-import { Copy, Check } from "lucide-react";
+import React from 'react';
+import { Copy } from 'lucide-react';
+import assets from '../../assets/assests';
+import { toast } from 'sonner';
 
 const Ongoing = () => {
-  const [copied, setCopied] = useState(false);
-  const link = "https://wa.me/23470";
+  const link = 'https://example.com/refer/musiliu';
 
-  const handleCopy = async () => {
-    try {
-      if (navigator.clipboard && window.isSecureContext) {
-        // Modern browsers (works best on HTTPS)
-        await navigator.clipboard.writeText(link);
-      } else {
-        // Fallback for mobile/HTTP
-        const textArea = document.createElement("textarea");
-        textArea.value = link;
-        textArea.style.position = "fixed";
-        textArea.style.left = "-9999px";
-        document.body.appendChild(textArea);
-        textArea.focus();
-        textArea.select();
-        document.execCommand("copy");
-        document.body.removeChild(textArea);
-      }
-
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
-      console.error("Failed to copy: ", err);
-    }
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(link);
+    toast.success('Link copied to clipboard!');
   };
 
   return (
-    <div className="pb-[5rem] lg:pb-0 p-2">
-      <div className="bg-accClrYellow rounded p-6 lg:mt-0">
-        <div className="grid lg:grid-cols-2 grid-1 lg:gap-6 gap-10">
-          <div>
-            <img src={assets.flyer} alt="flyer" className="w-full h-auto rounded" />
+    <div className="pb-24 lg:pb-6  mx-auto">
+      <div className="bg-pryClr rounded-2xl p-6 shadow-lg border border-accClrYellow transition-all duration-300 hover:shadow-xl">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+          <div className="overflow-hidden rounded-xl">
+            <img
+              src={assets.flyer}
+              alt="Flyer"
+              className="w-full h-auto object-cover transform hover:scale-105 transition-all duration-300"
+            />
           </div>
-          <div className="space-y-3 ">
-            {/* Username */}
-            <div className="flex flex-col gap-2 items-start">
-              <h1 className="capitalize lg:text-xl text-[18px]">My username</h1>
-              <div className="bg-pryClr/65 p-3 rounded w-full">
-                <h1 className="capitalize text-secClrWhite lg:text-xl text-[18px]">
-                  musiliu
-                </h1>
+
+          <div className="space-y-4">
+            <div className="flex flex-col gap-2">
+              <h1 className="text-base lg:text-lg font-semibold text-secClrWhite">My Username</h1>
+              <div className="bg-pryClr rounded-lg p-3 border border-secClrWhite/30">
+                <h1 className="text-base lg:text-lg text-secClrWhite font-medium">musiliu</h1>
               </div>
             </div>
 
-            {/* Link with Copy */}
-            <div className="flex flex-col gap-2 items-start">
-              <h1 className="capitalize lg:text-xl text-[18px]">My link</h1>
-              <div className="bg-pryClr/65 p-3 rounded w-full flex items-center justify-between gap-2">
-                <h1 className="capitalize text-secClrWhite lg:text-xl text-[18px] truncate">
-                  {link}
-                </h1>
-                <button onClick={handleCopy}>
-                  {copied ? (
-                    <Check className="w-5 h-5 text-green-400" />
-                  ) : (
-                    <Copy className="w-5 h-5 text-secClrWhite" />
-                  )}
+            <div className="flex flex-col gap-2">
+              <h1 className="text-base lg:text-lg font-semibold text-secClrWhite">My Link</h1>
+              <div className="bg-pryClr rounded-lg p-3 border border-secClrWhite/30 flex items-center justify-between gap-2">
+                <h1 className="text-base lg:text-lg text-secClrWhite truncate">{link}</h1>
+                <button
+                  className="p-2 rounded-full bg-accClrPink hover:bg-accClrPink/80 transition-all duration-300"
+                  onClick={handleCopyLink}
+                >
+                  <Copy className="w-5 h-5 text-secClrWhite" />
                 </button>
               </div>
             </div>
 
-            {/* Bonus */}
-            <div className="flex flex-col gap-2 items-start">
-              <h1 className="capitalize lg:text-xl text-[18px]">
-                Bonus Per Referral
-              </h1>
-              <div className="bg-pryClr/65 p-3 rounded w-full">
-                <h1 className="capitalize text-secClrWhite lg:text-xl text-[18px]">
-                  #5,000
-                </h1>
+            <div className="flex flex-col gap-2">
+              <h1 className="text-base lg:text-lg font-semibold text-secClrWhite">Bonus Per Referral</h1>
+              <div className="bg-pryClr rounded-lg p-3 border border-secClrWhite/30">
+                <h1 className="text-base lg:text-lg text-secClrWhite font-medium">₦5,000</h1>
               </div>
             </div>
 
-            {/* Username Again */}
-            <div className="flex flex-col gap-2 items-start">
-              <h1 className="capitalize lg:text-xl text-[18px]">end date</h1>
-              <div className="bg-pryClr/65 p-3 rounded w-full">
-                <h1 className="capitalize text-secClrWhite lg:text-xl text-[18px]">
-                  12-June-2025
-                </h1>
+            <div className="flex flex-col gap-2">
+              <h1 className="text-base lg:text-lg font-semibold text-secClrWhite">End Date</h1>
+              <div className="bg-pryClr rounded-lg p-3 border border-secClrWhite/30">
+                <h1 className="text-base lg:text-lg text-secClrWhite font-medium">2025-12-31</h1>
               </div>
             </div>
-            <div className="flex gap-4 justify-center mt-5">
-              <div className="bg-pryClr/65 rounded-xl p-4 flex flex-col items-center justify-center flex-1">
-                <p className="text-sm text-secClrWhite capitalize lg:text-xl">
-                  No of clicks
-                </p>
-                <h2 className="text-3xl font-bold mt-2 text-secClrWhite">80</h2>
-              </div>
 
-              <div className="bg-pryClr/65 rounded-xl p-4 flex flex-col items-center justify-center flex-1">
-                <p className="text-sm text-secClrWhite capitalize lg:text-xl">
-                  Completed Sales
-                </p>
-                <h2 className="text-3xl font-bold mt-2 text-secClrWhite">1</h2>
+            <div className="grid grid-cols-2 gap-4 mt-6">
+              <div className="bg-pryClr rounded-xl p-4 flex flex-col items-center justify-center border border-accClrYellow transition-all duration-300 hover:scale-105">
+                <p className="text-sm lg:text-base text-secClrWhite capitalize">No of Clicks</p>
+                <h2 className="text-2xl lg:text-3xl font-bold mt-2 text-accClrYellow">80</h2>
+              </div>
+              <div className="bg-pryClr rounded-xl p-4 flex flex-col items-center justify-center border border-accClrYellow transition-all duration-300 hover:scale-105">
+                <p className="text-sm lg:text-base text-secClrWhite capitalize">Completed Sales</p>
+                <h2 className="text-2xl lg:text-3xl font-bold mt-2 text-accClrYellow">1</h2>
               </div>
             </div>
           </div>

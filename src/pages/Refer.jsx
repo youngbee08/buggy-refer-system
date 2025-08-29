@@ -1,41 +1,38 @@
-
-import React, { useState } from "react";
-import Ongoing from "./subpage/Ongoing";
-import Closed from "./subpage/Closed";
+import React, { useState } from 'react';
+import Ongoing from './subpage/Ongoing';
+import Closed from './subpage/Closed';
 
 const Refer = () => {
-  const [activeTab, setActiveTab] = useState("ongoing"); // default tab
+  const [activeTab, setActiveTab] = useState('ongoing');
 
   return (
-    <div className="">
-      {/* Tabs */}
-      <div className="flex gap-4 mb-6">
+    <div className="lg:p-6 rounded-lg mx-auto bg-transparent md:bg-pryClr">
+      <div className="flex gap-4 mb-6 bg-pryClr rounded-xl  border border-accClrYellow shadow-md">
         <button
-          className={`pb-2 px-4 font-semibold text-xl ${
-            activeTab === "ongoing"
-              ? "border-b-2 border-accClrYellow capitalize text-start text-pryClr"
-              : "text-gray-500"
+          className={`flex-1 py-3 px-4 text-base lg:text-lg font-semibold rounded-lg transition-all duration-300 ${
+            activeTab === 'ongoing'
+              ? 'bg-accClrYellow text-secClrBlack shadow-md'
+              : 'text-secClrWhite hover:bg-accClrYellow/50'
           }`}
-          onClick={() => setActiveTab("ongoing")}
+          onClick={() => setActiveTab('ongoing')}
         >
-          Ongoing offer
+          Ongoing Offer
         </button>
         <button
-          className={`pb-2 px-4 font-semibold text-xl ${
-            activeTab === "closed"
-              ? "border-b-2 border-accClrYellow capitalize text-start text-pryClr"
-              : "text-gray-500"
+          className={`flex-1 py-3 px-4 text-base lg:text-lg font-semibold rounded-lg transition-all duration-300 ${
+            activeTab === 'closed'
+              ? 'bg-accClrYellow text-secClrBlack shadow-md'
+              : 'text-secClrWhite hover:bg-accClrYellow/50'
           }`}
-          onClick={() => setActiveTab("closed")}
+          onClick={() => setActiveTab('closed')}
         >
-          Closed offer
+          Closed Offer
         </button>
       </div>
 
-      {/* Content */}
-      <div>
-        {activeTab === "ongoing" && <Ongoing />}
-        {activeTab === "closed" && <Closed />}
+      <div className="animate-fade-in">
+        {activeTab === 'ongoing' && <Ongoing />}
+        {activeTab === 'closed' && <Closed />}
       </div>
     </div>
   );
