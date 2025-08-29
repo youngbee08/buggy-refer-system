@@ -1,11 +1,14 @@
 import React, { useState } from "react";
-import { Eye, EyeOff } from "lucide-react";
+import { ArrowDown, Eye, EyeOff } from "lucide-react";
+import Ongoing from "./subpage/Ongoing";
+import { Link } from "react-router-dom";
+import History from "./History";
 
 const Dashboard = () => {
   const [showBalance, setShowBalance] = useState(true);
 
   return (
-    <div>
+    <div className="flex flex-col gap-8">
       <div className="grid grid-cols-4 gap-4">
         {/* Wallet Balance */}
         <div className="bg-pryClr rounded-xl p-4 flex justify-between items-center col-span-4 lg:col-span-2">
@@ -35,6 +38,16 @@ const Dashboard = () => {
           <p className="text-sm text-secClrWhite capitalize lg:text-xl">Completed</p>
           <h2 className="text-3xl font-bold mt-2 text-secClrWhite">10</h2>
         </div>
+      </div>
+      <div className="flex flex-col gap-4">
+        <div className="flex justify-between">
+          <h2 className="text-xl font-medium">Ongoing Offer</h2>
+          <Link to={"/refer"} className="text-base font-semibold flex items-center gaLink-1 hover:underline"><ArrowDown size={20} className="rotate-[-135deg]"/>See all</Link>
+        </div>
+        <Ongoing/>
+      </div>
+      <div className="flex flex-col gap-4">
+        <History isAll={false}/>
       </div>
     </div>
   );

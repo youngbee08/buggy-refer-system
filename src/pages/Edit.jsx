@@ -8,8 +8,8 @@ const Edit = ({image,fields,formSubject,formText,otherActions,btnText,formAction
     backgroundImage: `${window.innerWidth <= 800 ? `linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.4)), url(${smBg})` : ''}`, backgroundRepeat:"no-repeat", backgroundPosition:"center", backgroundSize:"cover"}}>
       <div className="w-[60%] lg:flex flex-col h-full relative hidden">
         <img src={assets.logo2} alt="logo" className='absolute top-[2rem] w-1/3 left-[2rem]'/>
-        <img src={image} alt="signup img" className={`w-[${imgWid}] h-[100%] object-cover`} />
-        <div className={`flex flex-col absolute ${btnText === "login" ? "bottom-[10rem] left-[15rem]" : "bottom-[12rem] left-[10rem]"} text-[4rem] text-center font-bold text-shadow-[8px_8px_1px_#796fab] rotate-[-5deg] text-${refCol}`} style={{lineHeight:"2.5rem"}}>
+        <img src={image} alt="signup img" className={`h-[100%] object-cover`} width={{imgWid}}/>
+        <div className={`flex flex-col absolute ${btnText === "login" ? "bottom-[10rem] left-[15rem]" : "bottom-[10rem] left-[12rem]"} text-[4rem] text-center font-bold text-shadow-[8px_8px_1px_#796fab] rotate-[-5deg] text-${refCol}`} style={{lineHeight:"2.5rem"}}>
           <h2>Refer</h2>
           <h2 className='text-[#e5aa2d] text-shadow-2xs'>&</h2>
           <h2 style={{lineHeight:"1rem"}}>Earn</h2>
@@ -24,7 +24,7 @@ const Edit = ({image,fields,formSubject,formText,otherActions,btnText,formAction
           {
             fields?.map((field,key)=>(
               <div className="flex items-center justify-center relative" key={key}>
-                <div className={`absolute ${field.labelPosition}-[-.5rem] bg-accClrYellow rounded-full text-black text-center p-[.7rem] lg:p-[1rem] font-medium`}>
+                <div className={`absolute ${field.labelPosition === "right" ? 'right-[-.5rem]' : 'left-[-.5rem]'} bg-accClrYellow rounded-full text-black text-center p-[.7rem] lg:p-[1rem] font-medium`}>
                   <field.icon size={30}/>
                 </div>
                 <input type={`${field.type}`} placeholder={`${field.placeholder}`} className={`w-[90%] bg-secClrWhite rounded-full py-3 ${field.labelPosition === "right" ? "px-3" : "px-[3.3rem] lg:px-[4rem]"} text-black text-base font-bold outline-0 w-full`} required/>

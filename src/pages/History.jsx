@@ -1,11 +1,20 @@
 import { ArrowDown } from "lucide-react";
 import React from "react";
+import { Link } from "react-router-dom";
 
-const History = () => {
+const History = ({isAll=true}) => {
   return (
     <div className="flex flex-col gap-5 pb-[6rem] lg:pb-0">
-      <h2 className="text-xl lg:text-2xl font-medium">All Transaction History</h2>
+      {isAll ? (<h2 className="text-xl lg:text-2xl font-medium">All Transaction History</h2>) : null}
       <div className="bg-pryClr p-2 flex flex-col gap-3 rounded-[7px] w-full mx-auto">
+        {
+        !isAll ? (
+          <div className="flex justify-between">
+            <h2 className="text-xl font-medium">Transaction History</h2>
+            <Link to={"/history"} className="text-base font-semibold flex items-center gaLink-1 hover:underline"><ArrowDown size={20} className="rotate-[-135deg]"/>See all</Link>
+          </div>
+        ):null
+      }
         <div className="bg-secClrWhite rounded-[6px] p-4 flex items-center justify-between">
           <div className="flex items-center gap-2 lg:gap-4">
             <div className="bg-pryClr rounded-full p-2 rotate-[-140deg] text-red-500">
