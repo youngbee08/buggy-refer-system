@@ -1,4 +1,3 @@
-// src/components/Sidebar.jsx
 import { Link, useLocation } from "react-router-dom";
 import {
   MdDashboard,
@@ -7,58 +6,58 @@ import {
   MdGroupAdd,
   MdPerson,
   MdLogout,
-} from "react-icons/md"; // You can pick any set from react-icons
+} from "react-icons/md";
 import assets from "../assets/assests";
 
 const Sidebar = () => {
   const location = useLocation();
 
   const linkClasses = (path) =>
-    `flex items-center gap-3 p-2 text-base rounded-md transition-colors ${
+    `flex items-center gap-4 p-3 rounded-xl transition-all duration-300 transform hover:scale-105 ${
       location.pathname === path
-        ? "text-yellow-400 font-semibold" // Active
-        : "text-white hover:text-yellow-300"
+        ? "text-yellow-400 font-semibold bg-gradient-to-r from-white/10 to-transparent border-l-4 border-yellow-400"
+        : "text-white hover:text-yellow-300 hover:bg-white/10"
     }`;
 
   return (
-    <aside className="hidden lg:flex flex-col w-84 bg-pryClr text-white h-screen p-8 justify-between">
+    <aside className="hidden lg:flex flex-col w-64 bg-pryClr text-white h-screen p-6 justify-between shadow-xl">
       {/* Top Section (Logo + Nav) */}
       <div>
         {/* Logo */}
-        <div className="flex items-center gap-2 mb-12">
-          <img src={assets.logo} alt="" className="w-[320px] h-auto"/>
+        <div className="flex items-center gap-2 mb-10">
+          <img src={assets.logo} alt="Logo" className="w-48 h-auto transition-transform duration-300 hover:scale-110" />
         </div>
 
         {/* Navigation */}
-        <nav className="flex flex-col space-y-4">
+        <nav className="flex flex-col space-y-3">
           <Link to="/dashboard" className={linkClasses("/dashboard")}>
-            <MdDashboard size={22} />
-            <span className="text-lg">Dashboard</span>
+            <MdDashboard size={24} />
+            <span className="text-base tracking-wide">Dashboard</span>
           </Link>
           <Link to="/history" className={linkClasses("/history")}>
-            <MdHistory size={22} />
-            <span className="text-lg">History</span>
+            <MdHistory size={24} />
+            <span className="text-base tracking-wide">History</span>
           </Link>
           <Link to="/withdraw" className={linkClasses("/withdraw")}>
-            <MdAccountBalanceWallet size={22} />
-            <span className="text-lg">Withdraw</span>
+            <MdAccountBalanceWallet size={24} />
+            <span className="text-base tracking-wide">Withdraw</span>
           </Link>
           <Link to="/refer" className={linkClasses("/refer")}>
-            <MdGroupAdd size={22} />
-            <span className="text-lg">Refer & Earn</span>
+            <MdGroupAdd size={24} />
+            <span className="text-base tracking-wide">Refer & Earn</span>
           </Link>
           <Link to="/profile" className={linkClasses("/profile")}>
-            <MdPerson size={22} />
-            <span className="text-lg">Profile</span>
+            <MdPerson size={24} />
+            <span className="text-base tracking-wide">Profile</span>
           </Link>
         </nav>
       </div>
 
       {/* Logout at bottom */}
       <div className="mt-auto">
-        <Link to="/logout" className="flex items-center gap-3 text-white hover:text-red-400">
-          <MdLogout size={22} />
-          <span className="text-lg">Logout</span>
+        <Link to="/logout" className="flex items-center gap-4 p-3 text-white hover:text-red-400 transition-all duration-300 transform hover:scale-105 hover:bg-white/10 rounded-xl">
+          <MdLogout size={24} />
+          <span className="text-base tracking-wide">Logout</span>
         </Link>
       </div>
     </aside>
