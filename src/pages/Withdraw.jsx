@@ -137,7 +137,7 @@ const Withdraw = () => {
 
       {withdrawPopup && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in">
-          <div className="bg-pryClr/90 backdrop-blur-lg rounded-2xl p-8 w-full max-w-md mx-4 shadow-2xl border border-accClrYellow/30 transition-all duration-300 transform scale-95 hover:scale-100 popUpPin">
+          <div className="bg-pryClr/90 backdrop-blur-lg rounded-2xl p-8 w-full mx-4 shadow-2xl border border-accClrYellow/30 transition-all duration-300 transform scale-95 hover:scale-100 popUpPin">
             <h3 className="text-xl lg:text-2xl font-semibold text-secClrWhite mb-4">Confirm Withdrawal</h3>
             <p className="text-base text-secClrWhite mb-6 leading-relaxed">
               You are about to withdraw <span className="font-bold text-accClrYellow">₦{amountRef.current.value}</span> to{' '}

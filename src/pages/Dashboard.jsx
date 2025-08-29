@@ -10,16 +10,16 @@ const Dashboard = () => {
         {/* Wallet Balance */}
         <div className="bg-pryClr rounded-xl p-4 flex justify-between items-center col-span-4 lg:col-span-2">
           <div>
-            <p className="lg:text-xl text-sm capitalize text-secClrBlack">Wallet balance</p>
+            <p className="lg:text-xl text-sm capitalize text-white">Wallet balance</p>
             <h2 className="text-3xl font-bold text-accClrYellow mt-2">
               {showBalance ? "₦5,000" : "****"}
             </h2>
           </div>
           <button onClick={() => setShowBalance(!showBalance)}>
             {showBalance ? (
-              <EyeOff className="w-6 h-6 cursor-pointer text-secClrBlack" />
+              <EyeOff className="w-6 h-6 cursor-pointer text-white" />
             ) : (
-              <Eye className="w-6 h-6 cursor-pointer text-secClrBlack" />
+              <Eye className="w-6 h-6 cursor-pointer text-white" />
             )}
           </button>
         </div>
