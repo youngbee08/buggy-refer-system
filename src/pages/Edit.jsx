@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 const Edit = ({image,fields,formSubject,formText,otherActions,btnText,formAction,bg,otherTextcol,refCol,imgWid,smBg}) => {
   return (
     <div className={`overflowy-y-hidden lg:overflow-y-auto bg-[url(${smBg})] bg-cover lg:bg-${bg} h-[100vh] w-full flex justify-between text-secClrWhite items-center`} style={{
-    backgroundImage: `${window.innerWidth <= 800 ? `linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.4)), url(${smBg})` : ''}`, backgroundRepeat:"no-repeat", backgroundPosition:"center", backgroundSize:"cover"}}>
+    backgroundImage: `${window.innerWidth <= 900 ? `linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.4)), url(${smBg})` : ''}`, backgroundRepeat:"no-repeat", backgroundPosition:"center", backgroundSize:"cover"}}>
       <div className="w-[60%] lg:flex flex-col h-full relative hidden">
         <img src={assets.logo2} alt="logo" className='absolute top-[2rem] w-1/3 left-[2rem]'/>
         <img src={image} alt="signup img" className={`h-[100%] object-cover`} width={{imgWid}}/>

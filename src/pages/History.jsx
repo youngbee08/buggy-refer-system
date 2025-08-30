@@ -33,7 +33,8 @@ const History = () => {
               </div>
               <h3 className="text-base lg:text-lg font-bold text-secClrBlack">{transaction.type}</h3>
             </div>
-            <div className="flex items-center gap-2 lg:gap-4">
+            <div className="flex items-center gap-2 lg:gap-8">
+              <h3 className="text-base lg:text-lg font-semibold text-secClrBlack">{transaction.amount}</h3>
               <p
                 className={`${
                   transaction.status === "Pending" ? "bg-accClrYellow" : transaction.status === "Failed" ? "bg-red-500" : "bg-green-600"
@@ -41,7 +42,6 @@ const History = () => {
               >
                 {transaction.status}
               </p>
-              <h3 className="text-base lg:text-lg font-semibold text-secClrBlack">{transaction.amount}</h3>
             </div>
           </div>
         ))}
