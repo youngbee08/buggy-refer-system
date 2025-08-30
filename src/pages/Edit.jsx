@@ -27,7 +27,7 @@ const Edit = ({image,fields,formSubject,formText,otherActions,btnText,formAction
                 <div className={`absolute ${field.labelPosition === "right" ? 'right-[-.5rem]' : 'left-[-.5rem]'} bg-accClrYellow rounded-full text-black text-center p-[.7rem] lg:p-[1rem] font-medium`}>
                   <field.icon size={30}/>
                 </div>
-                <input type={`${field.type}`} placeholder={`${field.placeholder}`} className={`w-[90%] bg-secClrWhite rounded-full py-3 ${field.labelPosition === "right" ? "px-3" : "px-[3.3rem] lg:px-[4rem]"} text-black text-base font-bold outline-0 w-full`} required/>
+                <input type={`${field.type}`} placeholder={`${field.placeholder}`} className={`w-[90%] bg-secClrWhite rounded-full py-3 ${field.labelPosition === "right" ? "px-3" : "px-[3.3rem] lg:px-[4rem]"} text-black text-base font-bold outline-0 w-full`} required onChange={field.onChange}/>
               </div>
             ))
           }
