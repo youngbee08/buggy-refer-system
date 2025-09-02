@@ -12,7 +12,7 @@ const Ongoing = () => {
   const user = getUserDetails();
   const fetchOngoingOffer = async ()=>{
     try {
-      const res = await getRequestWithToken(navigate);
+      const res = await getRequestWithToken(navigate,"/offers/ongoing");
       console.log(res);
       setOngoingOffers(res.offers.data)
     } catch (err) {

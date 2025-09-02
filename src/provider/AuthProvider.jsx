@@ -49,10 +49,10 @@ const AuthProvider = ({children}) => {
     }
   }
 
-  const getRequestWithToken = async (errAction)=>{
+  const getRequestWithToken = async (errAction,reqEndpoint)=>{
     const token = localStorage.getItem("authToken");
     try {
-      const res = await fetch(`${apiUrl}/api/offers/ongoing`, {
+      const res = await fetch(`${apiUrl}/api${reqEndpoint}`, {
         method:"GET",
         headers:{
           "Authorization":`Bearer ${token}`
