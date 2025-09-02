@@ -1,7 +1,23 @@
-import React from "react";
+import React, { useContext, } from "react";
 import assets from "../assets/assests";
+import { AuthContext } from "../context/AuthContext";
 
 const TopBar = () => {
+  const {getUserDetails} = useContext(AuthContext);
+  const user = getUserDetails();
+  console.log(user)
+  const customizeName = (name)=>{
+    if (name.split(' ')[0] && name.split(' ')[1]) {
+      const firstName = name.split(" ")[0];
+      const lastNameInitials = name.split(" ")[1][0];
+      return `${firstName}, ${lastNameInitials}.`;
+    }else{
+      return name
+    }
+  }
+
+  const customName = customizeName(user.full_name)
+  
   return (
     <div>
       <div className="lg:hidden block bg-pryClr p-4 ">
@@ -14,7 +30,7 @@ const TopBar = () => {
           <h1 className="font-normal text-xl md:text-2xl lg:text-3xl">
             Welcome home,{" "}
             <span className="font-bold text-xl md:text-2xl lg:text-3xl">
-              Ayangalu, M.
+              {customName}
             </span>
           </h1>
           <p className="text-sm md:text-base lg:text-lg text-accClrYellow">

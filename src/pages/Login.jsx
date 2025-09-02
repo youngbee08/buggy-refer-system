@@ -1,12 +1,15 @@
-import React, { useState } from "react"; // Added useState import
+import React, { useContext, useState } from "react"; // Added useState import
 import Edit from "./Edit";
 import { LockKeyholeIcon, User } from "lucide-react";
 import assets from "../assets/assests";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import { AuthContext } from "../context/AuthContext";
 
 const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 const Login = () => {
+  const {setUser,isAuthenticated} = useContext(AuthContext);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false); // Uncommented
   const [error, setError] = useState(""); // Uncommented
@@ -18,24 +21,20 @@ const Login = () => {
 
   // API call with proper error handling
   const loginUser = async (userData) => {
-    try {
-      const response = await fetch(`https://referral.buggybillions.com.ng/public/api/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json", // Fixed typo: was "content-Type"
-        },
-        body: JSON.stringify(userData),
-      });
+    const response = await fetch(`${API_URL}/api/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json", // Fixed typo: was "content-Type"
+      },
+      body: JSON.stringify(userData),
+    });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Login failed");
-      }
-
-      return response.json();
-    } catch (error) {
-      throw error;
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Login failed");
     }
+
+    return response.json();
   };
 
   const fields = [
@@ -80,7 +79,7 @@ const Login = () => {
       const result = await loginUser(userData);
 
       // Handle success
-      console.log("Login successful:", result);
+      toast.success(result.message)
 
       // Store user data or token if needed
       if (result.token) {
@@ -90,12 +89,17 @@ const Login = () => {
         localStorage.setItem("userData", JSON.stringify(result.user));
       }
 
+      const user = JSON.parse(localStorage.getItem("userData"));
+
+      user && setUser(user)
+      console.log(isAuthenticated)
       // Navigate to dashboard
       navigate("/dashboard");
 
-    } catch (error) {
-      console.error("Login error:", error);
-      setError(error.message);
+    } catch (err) {
+      console.error("Login error:", err);
+      setError(err.message);
+      toast.error(error || err.message)
     } finally {
       setLoading(false);
     }
@@ -103,21 +107,6 @@ const Login = () => {
 
   return (
     <>
-      {/* Error display */}
-      {error && (
-        <div style={{
-          color: 'red',
-          padding: '10px',
-          marginBottom: '10px',
-          textAlign: 'center',
-          backgroundColor: '#fee',
-          border: '1px solid #fcc',
-          borderRadius: '4px'
-        }}>
-          {error}
-        </div>
-      )}
-
       <Edit
         image={assets.login}
         fields={fields}

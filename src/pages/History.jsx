@@ -2,7 +2,7 @@ import { ArrowDown } from "lucide-react";
 import React from "react";
 import { Link } from "react-router-dom";
 
-const History = () => {
+const History = ({isRecent = false}) => {
   const transactions = [
     { type: "Withdraw", amount: "₦5000", status: "Successful", iconRotation: "-140deg", iconColor: "text-red-500" },
     { type: "Earn", amount: "₦2000", status: "Successful", iconRotation: "140deg", iconColor: "text-accClrYellow" },
@@ -14,7 +14,7 @@ const History = () => {
 
   return (
     <div className="flex flex-col gap-6 py-4 lg:p-6 max-w-full overflow-x-hidden">
-      <h2 className="text-xl lg:text-2xl font-bold text-pryClr tracking-wide">All Transaction History</h2>
+      <h2 className="text-xl lg:text-2xl font-bold text-pryClr tracking-wide">{isRecent ? "Recent transactions" : "All Transaction History"}</h2>
       <div className="w-full  mx-auto">
         {transactions.map((transaction, index) => (
           <div

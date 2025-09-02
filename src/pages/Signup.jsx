@@ -3,6 +3,7 @@ import Edit from "./Edit";
 import { LockKeyholeIcon, Mail, User, UserPenIcon } from "lucide-react";
 import assets from "../assets/assests";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const API_URL = import.meta.env.VITE_API_BASE_URL
 
@@ -21,7 +22,7 @@ const Signup = () => {
 
   // function to call API
   const registerUser = async (userData) => {
-    const response = await fetch(`https://referral.buggybillions.com.ng/public/api/register`, {
+    const response = await fetch(`${API_URL}/api/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(userData),
@@ -90,14 +91,6 @@ const Signup = () => {
         throw new Error("Password must be at least 6 characters long");
       }
 
-      // match backend field names
-      // const userData = {
-      //   full_name: formData.full_name,
-      //   email: formData.email,
-      //   username: formData.username,
-      //   password: formData.password,
-      // };
-
       const result = await registerUser(formData);
 
       // store token/user if available
@@ -106,9 +99,11 @@ const Signup = () => {
 
       // navigate to next page
       navigate("/setup-pin");
+      toast.success(result.message)
     } catch (err) {
       setError(err.message);
       console.error("Registration error:", err);
+      toast.error(error)
     } finally {
       setLoading(false);
     }
@@ -116,22 +111,6 @@ const Signup = () => {
 
   return (
     <>
-      {error && (
-        <div
-          style={{
-            color: "red",
-            padding: "10px",
-            marginBottom: "10px",
-            textAlign: "center",
-            backgroundColor: "#fee",
-            border: "1px solid #fcc",
-            borderRadius: "4px",
-          }}
-        >
-          {error}
-        </div>
-      )}
-
       <Edit
         image={assets.signUp}
         fields={fields}

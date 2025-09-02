@@ -4,6 +4,7 @@ import Ongoing from "./subpage/Ongoing";
 import { Link } from "react-router-dom";
 import History from "./History";
 
+
 const Dashboard = () => {
   const [showBalance, setShowBalance] = useState(true);
 
@@ -47,7 +48,7 @@ const Dashboard = () => {
         <Ongoing/>
       </div>
       <div className="flex flex-col gap-4">
-        <History isAll={false}/>
+        <History isRecent={true}/>
       </div>
     </div>
   );
