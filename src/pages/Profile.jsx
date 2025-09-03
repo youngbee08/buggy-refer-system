@@ -1,40 +1,42 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { toast } from 'sonner';
 import { Upload, ChevronUp, ChevronDown, CheckCircle } from 'lucide-react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import assets from '../assets/assests';
+import { AuthContext } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const PS_SK = import.meta.env.VITE_PAYSTACK_SECRET_KEY;
 
 const PasswordSchema = Yup.object().shape({
-  currentPassword: Yup.string()
+  password: Yup.string()
     .min(8, 'Current password must be at least 8 characters')
     .required('Current password is required'),
-  newPassword: Yup.string()
+  new_password: Yup.string()
     .min(8, 'New password must be at least 8 characters')
     .matches(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
       'New password must include at least one uppercase letter, one lowercase letter, one number, and one special character'
     )
     .required('New password is required'),
-  confirmPassword: Yup.string()
-    .oneOf([Yup.ref('newPassword'), null], 'Passwords must match')
+  new_password_confirmation: Yup.string()
+    .oneOf([Yup.ref('new_password'), null], 'Passwords must match')
     .required('Confirm password is required'),
 });
 
 const Profile = () => {
+  const navigate = useNavigate()
   const [isEditing, setIsEditing] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
   const [showBankForm, setShowBankForm] = useState(false);
   const [showResetPassword, setShowResetPassword] = useState(false);
   const [successPopup, setSuccessPopup] = useState({ show: false, message: '' });
-  const [profile, setProfile] = useState({
-    username: 'Musiliu',
-    email: 'musiliu@example.com',
-    phone: '07012345678',
-    profileImage: localStorage.getItem('profileImage') || assets.profile,
-  });
+  const {authRequestWithToken,getUserDetails} = useContext(AuthContext);
+  const user = getUserDetails();
+  const [profile, setProfile] = useState(user);
   const [listOfBanks, setListOfBanks] = useState([]);
   const [isLoadingBanks, setIsLoadingBanks] = useState(false);
   const [isResolvingAccount, setIsResolvingAccount] = useState(false);
@@ -44,8 +46,6 @@ const Profile = () => {
       ? JSON.parse(savedDetails)
       : { bank_code: '', account_name: '', account_number: '', bank_name: '' };
   });
-  const [profileImage, setProfileImage] = useState(null);
-  const fileInputRef = useRef(null);
 
   useEffect(() => {
     const fetchApprovedBanks = async () => {
@@ -101,15 +101,27 @@ const Profile = () => {
     return () => clearTimeout(handler);
   }, [bankDetails.account_number, bankDetails.bank_code]);
 
-  const handleEditToggle = () => {
-    if (isEditing) {
-      toast.success('Profile updated successfully!');
-      setSuccessPopup({
-        show: true,
-        message: 'Your profile has been updated successfully!',
-      });
+  const handleEditToggle = async () => {
+    setIsSaving(true)
+    try {
+      if (isEditing) {
+        const res = await authRequestWithToken("/user/profile",profile,"PUT");
+        if (res.success === true) {
+          toast.success(res.message);
+          setSuccessPopup({
+            show: true,
+            message: 'Your profile has been updated successfully!',
+          });
+        }else{
+          toast.error(res.message)
+        }
+      }
+      setIsEditing(!isEditing);
+    } catch (err) {
+      console.log(err)
+    } finally{
+      setIsSaving(false)
     }
-    setIsEditing(!isEditing);
   };
 
   const handleProfileChange = (e) => {
@@ -119,24 +131,6 @@ const Profile = () => {
   const handleBankDetailsChange = (e) => {
     const { name, value } = e.target;
     setBankDetails((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      if (file.size > 2 * 1024 * 1024) {
-        toast.error('Image size must be less than 2MB.');
-        return;
-      }
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setProfileImage(reader.result);
-        setProfile((prev) => ({ ...prev, profileImage: reader.result }));
-        localStorage.setItem('profileImage', reader.result);
-        toast.success('Profile image updated successfully!');
-      };
-      reader.readAsDataURL(file);
-    }
   };
 
   const handleBankSubmit = (e) => {
@@ -167,30 +161,28 @@ const Profile = () => {
       <div className="flex flex-col items-center">
         <div className="relative">
           <img
-            src={profileImage || profile.profileImage}
+            src={assets.profile}
             alt="Profile"
             className="w-32 h-32 rounded-full object-cover border-4 border-accClrYellow shadow-lg transition-all duration-300 hover:scale-105"
-          />
-          {isEditing && (
-            <button
-              className="absolute bottom-0 right-0 p-2 bg-accClrPink rounded-full text-secClrWhite hover:bg-accClrPink/80 transition-all duration-300"
-              onClick={() => fileInputRef.current.click()}
-            >
-              <Upload size={20} />
-            </button>
-          )}
-          <input
-            type="file"
-            accept="image/*"
-            ref={fileInputRef}
-            onChange={handleImageChange}
-            className="hidden"
           />
         </div>
       </div>
 
       <div className="bg-pryClr rounded-2xl p-6 shadow-lg border border-accClrYellow transition-all duration-300 hover:shadow-xl">
         <div className="space-y-4">
+          <div>
+            <label className="block text-base lg:text-lg font-semibold text-secClrWhite">Full Name</label>
+            <input
+              type="text"
+              name="full_name"
+              value={profile.full_name}
+              onChange={handleProfileChange}
+              disabled={!isEditing}
+              className={`w-full p-3 border border-secClrWhite/30 rounded-lg bg-pryClr text-secClrWhite focus:ring-2 focus:ring-accClrYellow transition-all duration-300 ${
+                isEditing ? '' : 'opacity-70 cursor-not-allowed'
+              }`}
+            />
+          </div>
           <div>
             <label className="block text-base lg:text-lg font-semibold text-secClrWhite">Username</label>
             <input
@@ -217,24 +209,11 @@ const Profile = () => {
               }`}
             />
           </div>
-          <div>
-            <label className="block text-base lg:text-lg font-semibold text-secClrWhite">Phone</label>
-            <input
-              type="text"
-              name="phone"
-              value={profile.phone}
-              onChange={handleProfileChange}
-              disabled={!isEditing}
-              className={`w-full p-3 border border-secClrWhite/30 rounded-lg bg-pryClr text-secClrWhite focus:ring-2 focus:ring-accClrYellow transition-all duration-300 ${
-                isEditing ? '' : 'opacity-70 cursor-not-allowed'
-              }`}
-            />
-          </div>
           <button
             onClick={handleEditToggle}
             className="w-full bg-accClrYellow text-secClrBlack px-4 py-2 rounded-lg font-semibold text-base lg:text-lg hover:bg-accClrYellow/90 transition-all duration-300 transform hover:scale-105"
           >
-            {isEditing ? 'Save' : 'Edit Profile'}
+            {!isEditing ? 'Edit Profile' : isSaving ? 'Saving...' : 'Save'}
           </button>
         </div>
       </div>
@@ -310,19 +289,31 @@ const Profile = () => {
         {showResetPassword && (
           <Formik
             initialValues={{
-              currentPassword: '',
-              newPassword: '',
-              confirmPassword: '',
+              password: '',
+              new_password: '',
+              new_password_confirmation: '',
             }}
             validationSchema={PasswordSchema}
-            onSubmit={(values, { resetForm }) => {
-              toast.success('Password updated successfully!');
-              setSuccessPopup({
-                show: true,
-                message: 'Your password has been updated successfully!',
-              });
-              resetForm();
-              setShowResetPassword(false);
+            onSubmit={async (values, { resetForm }) => {
+              setIsUpdating(true)
+              try {
+                const res = await authRequestWithToken("/user/change-password",values,"POST");
+                if (res.success === true) {
+                  toast.success(res.message);
+                  setSuccessPopup({
+                    show: true,
+                    message: 'Your password has been updated successfully!',
+                  });
+                }else{
+                  toast.error(res.message)
+                }
+                resetForm();
+                setShowResetPassword(false);
+              } catch (error) {
+                console.log(error)
+              }finally{
+                setIsUpdating(false)
+              }
             }}
           >
             {({ errors, touched }) => (
@@ -331,13 +322,13 @@ const Profile = () => {
                   <label className="block text-base lg:text-lg font-semibold text-secClrWhite">Current Password</label>
                   <Field
                     type="password"
-                    name="currentPassword"
+                    name="password"
                     className={`w-full p-3 bg-pryClr text-secClrWhite border border-secClrWhite/30 rounded-lg focus:ring-2 focus:ring-accClrYellow transition-all duration-300 ${
-                      errors.currentPassword && touched.currentPassword ? 'border-red-600' : ''
+                      errors.password && touched.password ? 'border-red-600' : ''
                     }`}
                   />
                   <ErrorMessage
-                    name="currentPassword"
+                    name="password"
                     component="p"
                     className="text-sm font-medium text-red-600 mt-1"
                   />
@@ -346,13 +337,13 @@ const Profile = () => {
                   <label className="block text-base lg:text-lg font-semibold text-secClrWhite">New Password</label>
                   <Field
                     type="password"
-                    name="newPassword"
+                    name="new_password"
                     className={`w-full p-3 bg-pryClr text-secClrWhite border border-secClrWhite/30 rounded-lg focus:ring-2 focus:ring-accClrYellow transition-all duration-300 ${
-                      errors.newPassword && touched.newPassword ? 'border-red-600' : ''
+                      errors.new_password && touched.new_password ? 'border-red-600' : ''
                     }`}
                   />
                   <ErrorMessage
-                    name="newPassword"
+                    name="new_password"
                     component="p"
                     className="text-sm font-medium text-red-600 mt-1"
                   />
@@ -361,13 +352,13 @@ const Profile = () => {
                   <label className="block text-base lg:text-lg font-semibold text-secClrWhite">Confirm New Password</label>
                   <Field
                     type="password"
-                    name="confirmPassword"
+                    name="new_password_confirmation"
                     className={`w-full p-3 bg-pryClr text-secClrWhite border border-secClrWhite/30 rounded-lg focus:ring-2 focus:ring-accClrYellow transition-all duration-300 ${
-                      errors.confirmPassword && touched.confirmPassword ? 'border-red-600' : ''
+                      errors.new_password_confirmation && touched.new_password_confirmation ? 'border-red-600' : ''
                     }`}
                   />
                   <ErrorMessage
-                    name="confirmPassword"
+                    name="new_password_confirmation"
                     component="p"
                     className="text-sm font-medium text-red-600 mt-1"
                   />
@@ -376,7 +367,7 @@ const Profile = () => {
                   type="submit"
                   className="w-full bg-accClrPink text-secClrWhite px-4 py-2 rounded-lg font-semibold text-base lg:text-lg hover:bg-accClrPink/90 transition-all duration-300 transform hover:scale-105"
                 >
-                  Update Password
+                  {!isUpdating ? 'Update Password' : 'Updating Password...'}
                 </button>
               </Form>
             )}
@@ -394,7 +385,7 @@ const Profile = () => {
             <p className="text-base text-secClrWhite mb-6 leading-relaxed">{successPopup.message}</p>
             <button
               className="w-full bg-accClrPink text-secClrWhite px-4 py-2 rounded-lg font-semibold text-base lg:text-lg hover:bg-accClrPink/90 transition-all duration-300 transform hover:scale-105"
-              onClick={() => setSuccessPopup({ show: false, message: '' })}
+              onClick={() => navigate("/dashboard")}
             >
               Close
             </button>

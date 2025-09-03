@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   MdDashboard,
   MdHistory,
@@ -13,7 +13,6 @@ import { AuthContext } from "../context/AuthContext";
 
 const Sidebar = () => {
   const {logout} = useContext(AuthContext);
-  const navigate = useNavigate()
   const linkClasses = (path) =>
     `flex items-center gap-4 p-3 rounded-xl transition-all duration-300 transform hover:scale-105 ${
       location.pathname === path
@@ -56,7 +55,7 @@ const Sidebar = () => {
       </div>
 
       {/* Logout at bottom */}
-      <div className="mt-auto" onClick={()=> logout(navigate)}>
+      <div className="mt-auto" onClick={logout}>
         <p className="flex items-center gap-4 p-3 text-white hover:text-red-400 transition-all duration-300 transform hover:scale-105 hover:bg-white/10 rounded-xl">
           <MdLogout size={24} />
           <span className="text-base tracking-wide">Logout</span>

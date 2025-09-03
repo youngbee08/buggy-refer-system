@@ -1,19 +1,14 @@
-import React, { useState, useRef, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Copy } from 'lucide-react';
-import assets from '../../assets/assests';
-import { toast } from "sonner"
-import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 
 const Closed = () => {
-  const linkRef = useRef(null)
   const [closedoffer, setClosedOffer] = useState([]);
   const {getRequestWithToken,getUserDetails} = useContext(AuthContext);
-  const navigate = useNavigate()
   const user = getUserDetails();
   const fetchClosedOffer = async ()=>{
     try {
-      const res = await getRequestWithToken(navigate,"/offers/closed")
+      const res = await getRequestWithToken("/offers/closed")
       console.log(res);
       setClosedOffer(res.offers.data)
       console.log(closedoffer)

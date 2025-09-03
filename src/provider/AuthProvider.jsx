@@ -1,9 +1,12 @@
 import { toast } from "sonner";
 import { AuthContext } from "../context/AuthContext"
 import { useState } from "react";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const AuthProvider = ({children}) => {
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
+  const navigate = useNavigate()
   const [user,setUser] = useState()
   const checkIsAuthenticated = ()=>{
     const hasToken = localStorage.getItem("authToken")
@@ -14,7 +17,7 @@ const AuthProvider = ({children}) => {
     }
   }
 
-  const logout = async (action)=>{
+  const logout = async ()=>{
     const token = localStorage.getItem("authToken");
     try {
       const res = await fetch(`${apiUrl}/api/logout`, {
@@ -30,7 +33,7 @@ const AuthProvider = ({children}) => {
         toast.success(data.message)
         localStorage.removeItem("authToken")
         localStorage.removeItem("userData")
-        action("/login")
+        navigate("/login")
       }else{
         toast.error(data.message)
       }
@@ -49,7 +52,7 @@ const AuthProvider = ({children}) => {
     }
   }
 
-  const getRequestWithToken = async (errAction,reqEndpoint)=>{
+  const getRequestWithToken = async (reqEndpoint)=>{
     const token = localStorage.getItem("authToken");
     try {
       const res = await fetch(`${apiUrl}/api${reqEndpoint}`, {
@@ -64,20 +67,57 @@ const AuthProvider = ({children}) => {
       console.log(err)
       toast.error(err.message)
       if (err.message === `Unexpected token '<', "<!DOCTYPE "... is not valid JSON`) {
-        toast.error("Oops! Your session is timed out, Please log in again");
+        toast.error("Oops! Your session has expired, Please log in again");
         localStorage.removeItem("authToken")
         localStorage.removeItem("userData")
-        errAction("/login")
+        navigate("/login")
       }
     }
   };
+
+  const authRequestWithToken = async (reqEndpoint,reqBody,reqType)=>{
+    const token = localStorage.getItem("authToken");
+    try {
+      const res = await fetch(`${apiUrl}/api${reqEndpoint}`, {
+        method:reqType,
+        headers:{
+          "Content-Type":"application/json",
+          "Authorization":`Bearer ${token}`
+        },
+        body:JSON.stringify(reqBody)
+      })
+      const data = await res.json();
+      return data
+    } catch (err) {
+      console.log(err)
+      toast.error(err.message)
+      if (err.message === `Unexpected token '<', "<!DOCTYPE "... is not valid JSON`) {
+        toast.error("Oops! Your session has expired, Please log in again");
+        localStorage.removeItem("authToken")
+        localStorage.removeItem("userData")
+        navigate("/login")
+      }
+    }
+  };
+
+  const fetchUserDetails = async ()=>{
+    const res = await getRequestWithToken("/user/profile");
+    setUser(res.user);
+    localStorage.setItem("userData", JSON.stringify(res.user))
+  };
+
+  useEffect(() => {
+   fetchUserDetails()
+  }, [])
+  
 
   const value = {
     checkIsAuthenticated,
     logout,
     setUser,
     getUserDetails,
-    getRequestWithToken
+    getRequestWithToken,
+    authRequestWithToken
   }
   return (
     <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
