@@ -10,6 +10,7 @@ import profileicon from "./images/profile.png"
 import signUp from "./images/signup-logo.png"
 import login from "./images/login.png"
 import flyer from "./images/flyer.jpg"
+import ill from "./images/Programmer-bro.png"
 
 
 
@@ -26,7 +27,8 @@ const assets = {
     profileicon,
     signUp,
     login,
-    logo2
+    logo2,
+    ill
 }
 
 
