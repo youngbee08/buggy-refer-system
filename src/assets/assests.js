@@ -12,6 +12,7 @@ import signUp2 from "./images/signup2.png"
 import login from "./images/login.png"
 import login2 from "./images/login2.jpg"
 import flyer from "./images/flyer.jpg"
+import ill from "./images/Programmer-bro.png"
 
 
 
@@ -30,7 +31,8 @@ const assets = {
     login,
     login2,
     logo2,
-    signUp2
+    signUp2,
+    ill
 }
 
 

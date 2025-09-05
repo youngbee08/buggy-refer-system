@@ -1,49 +1,57 @@
-import React, { useContext, } from "react";
+import React, { useContext } from "react";
+import { useLocation } from "react-router-dom";
 import assets from "../assets/assests";
 import { AuthContext } from "../context/AuthContext";
 
 const TopBar = () => {
-  const {getUserDetails} = useContext(AuthContext);
-  const user = getUserDetails();
-  console.log(user)
-  const customizeName = (name)=>{
-    if (name.split(' ')[0] && name.split(' ')[1]) {
-      const firstName = name.split(" ")[0];
-      const lastNameInitials = name.split(" ")[1][0];
-      return `${firstName}, ${lastNameInitials}.`;
-    }else{
-      return name
-    }
-  }
+  const { getUserDetails } = useContext(AuthContext);
+  const user = getUserDetails ? getUserDetails() : {};
+  const location = useLocation();
 
-  const customName = customizeName(user.full_name)
-  
+  // Map routes to titles (matches your Sidebar)
+  const pageTitles = {
+    "/dashboard": "Dashboard",
+    "/history": "History",
+    "/withdraw": "Withdraw",
+    "/refer": "Refer & Earn",
+    "/profile": "Profile",
+  };
+
+  // Get current page title
+  const pageTitle = pageTitles[location.pathname] || "Dashboard";
+
+  // Format today's date
+  const formatDate = () => {
+    const today = new Date();
+    const options = { weekday: "long", day: "2-digit", month: "long", year: "numeric" };
+    return today.toLocaleDateString("en-GB", options);
+  };
+
   return (
     <div>
-      <div className="lg:hidden block bg-pryClr p-4 ">
-        <img src={assets.logo} alt="" className="w-40" />
+      {/* Logo for small screens */}
+      <div className="lg:hidden block bg-pryClr p-4">
+        <img src={assets.logo} alt="Logo" className="w-40" />
       </div>
 
-      <div className="flex items-center justify-between px-4 md:px-6 py-3 shadow">
-        {/* Left side - Text */}
+      {/* Main Topbar */}
+      <div className="flex items-center justify-between px-4 md:px-6 py-3 bg-white shadow">
+        {/* Left side - Title & Date */}
         <div>
-          <h1 className="font-normal text-xl md:text-2xl lg:text-3xl">
-            Welcome home,{" "}
-            <span className="font-bold text-xl md:text-2xl lg:text-3xl">
-              {customName}
-            </span>
+          <h1 className="font-semibold text-2xl lg:text-3xl text-secClrBlack">
+            {pageTitle}
           </h1>
-          <p className="text-sm md:text-base lg:text-lg text-accClrYellow">
-            Here is the overview of your dashboard
+          <p className="text-sm md:text-base lg:text-lg text-secClrBlack/60">
+            {formatDate()}
           </p>
         </div>
 
         {/* Right side - Avatar */}
         <div>
           <img
-            src={assets.profile} // replace with actual user image
-            alt="User Avatar"
-            className="w-12 h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 rounded-full"
+            src={assets.profile}
+            alt={user?.full_name || "User Avatar"}
+            className="w-12 h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 rounded-full object-cover"
           />
         </div>
       </div>
