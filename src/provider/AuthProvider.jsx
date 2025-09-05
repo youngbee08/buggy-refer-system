@@ -2,12 +2,13 @@ import { toast } from "sonner";
 import { AuthContext } from "../context/AuthContext"
 import { useState } from "react";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const AuthProvider = ({children}) => {
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
   const navigate = useNavigate()
   const [user,setUser] = useState()
+  const location = useLocation()
   const checkIsAuthenticated = ()=>{
     const hasToken = localStorage.getItem("authToken")
     if (!hasToken) {
@@ -65,12 +66,19 @@ const AuthProvider = ({children}) => {
       return data
     } catch (err) {
       console.log(err)
-      toast.error(err.message)
+      if (err.message !== `Unexpected token '<', "<!DOCTYPE "... is not valid JSON`) {
+        toast.error(err.message)
+      }
+      if (err.message === `Failed to fetch`) {
+        toast.error('An unexpected error occured, please try again')
+      }
       if (err.message === `Unexpected token '<', "<!DOCTYPE "... is not valid JSON`) {
-        toast.error("Oops! Your session has expired, Please log in again");
-        localStorage.removeItem("authToken")
-        localStorage.removeItem("userData")
-        navigate("/login")
+        if (location.pathname !== "/") {
+          toast.error("Oops! Your session has expired, Please log in again");
+          localStorage.removeItem("authToken")
+          localStorage.removeItem("userData")
+          navigate("/login")
+        }
       }
     }
   };
@@ -90,7 +98,13 @@ const AuthProvider = ({children}) => {
       return data
     } catch (err) {
       console.log(err)
-      toast.error(err.message)
+      console.log(err.message)
+      if (err.message !== `Unexpected token '<', "<!DOCTYPE "... is not valid JSON`) {
+        toast.error(err.message)
+      }
+      if (err.message === `Failed to fetch`) {
+        toast.error('An unexpected error occured, please try again')
+      }
       if (err.message === `Unexpected token '<', "<!DOCTYPE "... is not valid JSON`) {
         toast.error("Oops! Your session has expired, Please log in again");
         localStorage.removeItem("authToken")

@@ -24,7 +24,7 @@ const TopBar = () => {
         <img src={assets.logo} alt="" className="w-40" />
       </div>
 
-      <div className="flex items-center justify-between px-4 md:px-6 py-3 bg-white shadow">
+      <div className="flex items-center justify-between px-4 md:px-6 py-3 shadow">
         {/* Left side - Text */}
         <div>
           <h1 className="font-normal text-xl md:text-2xl lg:text-3xl">

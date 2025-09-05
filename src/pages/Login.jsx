@@ -100,6 +100,9 @@ const Login = () => {
       console.error("Login error:", err);
       setError(err.message);
       toast.error(error || err.message)
+      if (err.message === `Failed to fetch`) {
+        toast.error('An unexpected error occured while logging in, please try again')
+      }
     } finally {
       setLoading(false);
     }
@@ -108,18 +111,13 @@ const Login = () => {
   return (
     <>
       <Edit
-        image={assets.login}
+        image={assets.login2}
         fields={fields}
-        formSubject="user login"
-        formText="Welcome Back Champ 🍾🥂🏆"
-        otherActions={["Dont have an Account?", "Register", ""]}
+        formSubject="User Login"
+        formText="lets Start this journey and make money"
+        direction={["Sign Up","/"]}
         btnText={loading ? "Logging in..." : "Login"} // Dynamic button text
         formAction={handleSubmit}
-        bg="white"
-        otherTextcol="black"
-        refCol="black"
-        imgWid={"90%"}
-        smBg={"../../../public/login.png"}
         disabled={loading} // Disable button while loading
       />
     </>

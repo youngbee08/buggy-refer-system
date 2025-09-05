@@ -12,9 +12,9 @@ const Maindashboard = ({ children }) => {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col min-h-screen">
+      <div className="flex-1 flex flex-col min-h-screen bg-pryClr/10">
         {/* Sticky Top Bar */}
-        <div className="sticky top-0 z-10 bg-white shadow-sm">
+        <div className="sticky top-0 z-10 bg-pryClr/10 shadow-sm">
           <TopBar />
         </div>
 
