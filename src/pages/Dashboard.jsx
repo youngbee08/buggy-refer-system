@@ -11,12 +11,12 @@ const Dashboard = () => {
   return (
     <div className="flex flex-col gap-8 lg:mt-10 mt-0">
       {/* Top Welcome Section */}
-      <div className="relative bg-pryClr/35 rounded-2xl p-10 flex items-center shadow-md overflow-visible ">
+      <div className="relative bg-pryClr/35 rounded-2xl p-10 flex items-center shadow-md overflow-visible">
         <div>
           <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800">
             Hi, Prime
           </h1>
-          <p className="text-gray-600 mt-1 text-sm md:text-base lg:text-lg">
+          <p className="text-gray-600 mt-1 text-[12px] md:text-base lg:text-lg ">
             Ready to start your day with some activities?
           </p>
         </div>
@@ -25,13 +25,16 @@ const Dashboard = () => {
         <img
           src={assets.ill}
           alt="Illustration"
-          className="absolute right-2 md:right-6 lg:-bottom-14 md:-bottom-11.5
+          className="absolute right-2 md:right-6 lg:-bottom-14 md:-bottom-11.5 -bottom-7
                w-40 h-40 md:w-65 md:h-65 lg:w-80 lg:h-80 
-               object-contain -sm:left-5"
+               object-contain"
         />
       </div>
 
       {/* Stats Cards Section */}
+      <p className="text-secClrBlack -mb-5 md:-mt-2 sm:-mt-5 capitalize  text-xl font-medium ">
+            overview
+          </p>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* Wallet Balance */}
         <div className="bg-pryClr rounded-xl p-6 flex flex-col items-center justify-center shadow">

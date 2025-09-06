@@ -19,7 +19,7 @@ const Maindashboard = ({ children }) => {
         </div>
 
         {/* Scrollable Content Area */}
-        <div className="flex-1 overflow-y-auto lg:px-4 lg:py-6 px-4 py-10">{children}</div>
+        <div className="flex-1 overflow-y-auto lg:px-4 lg:py-6 px-4 md:pt-8 md:pb-4 pt-5 pb-5">{children}</div>
       </div>
 
       {/* Bottom Navigation (only on small/medium screens) */}
