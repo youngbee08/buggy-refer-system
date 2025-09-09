@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 @font-face {
   font-family: 'Ttnorm';
   src: url('./assets/fonts/TTNorms-ExtraBoldItalic.otf') format('woff2');
@@ -12,7 +14,30 @@
   font-style: normal;
 }
 
-@import "tailwindcss";
+body,
+html {
+  overflow-x: hidden !important;
+  scroll-behavior: smooth !important;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Ttnorm', sans-serif;
+}
+
+body {
+  font-family: 'Ttnorm2', sans-serif !important;
+}
+
+
 
 @theme {
   --color-pryClr: #796fab;
