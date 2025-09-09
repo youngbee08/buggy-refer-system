@@ -2,39 +2,60 @@ import React from 'react'
 import assets from '../assets/assests'
 import { Link } from 'react-router-dom'
 
-const Edit = ({image,fields,formSubject,formText,otherActions,btnText,formAction,bg,otherTextcol,refCol,imgWid,smBg}) => {
+const Edit = 
+({fields,image,formSubject,formText,btnText,formAction,direction,disabled}) => {
+  const flexDirection = direction[0] === "Sign Up" ? 'lg:flex-row-reverse' : 'lg:flex-row';
   return (
-    <div className={`overflowy-y-hidden lg:overflow-y-auto bg-[url(${smBg})] bg-cover lg:bg-${bg} h-[100vh] w-full flex justify-between text-secClrWhite items-center`} style={{
-    backgroundImage: `${window.innerWidth <= 900 ? `linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.4)), url(${smBg})` : ''}`, backgroundRepeat:"no-repeat", backgroundPosition:"center", backgroundSize:"cover"}}>
-      <div className="w-[60%] lg:flex flex-col h-full relative hidden">
-        <img src={assets.logo2} alt="logo" className='absolute top-[2rem] w-1/3 left-[2rem]'/>
-        <img src={image} alt="signup img" className={`h-[100%] object-cover`} width={{imgWid}}/>
-        <div className={`flex flex-col absolute ${btnText === "login" ? "bottom-[10rem] left-[15rem]" : "bottom-[10rem] left-[12rem]"} text-[4rem] text-center font-bold text-shadow-[8px_8px_1px_#796fab] rotate-[-5deg] text-${refCol}`} style={{lineHeight:"2.5rem"}}>
-          <h2>Refer</h2>
-          <h2 className='text-[#e5aa2d] text-shadow-2xs'>&</h2>
-          <h2 style={{lineHeight:"1rem"}}>Earn</h2>
+    <div className="relative lg:h-screen min-h-screen w-full flex items-center justify-center lg:bg-gray-100 lg:p-6 lg:flex-row flex-col" style={{
+      backgroundImage: `${window.innerWidth <= 991 && 'linear-gradient(to bottom, rgba(0,0,0,0.9), rgba(0,0,0,0.9))'}, url(${window.innerWidth <= 991 && image})`,
+      backgroundPosition:"center",
+      backgroundSize:"cover"
+      }}>
+
+      <div className={`w-full lg:max-w-[80rem] lg:bg-white rounded-2xl lg:shadow-2xl flex justify-between overflow-hidden h-full ${flexDirection} flex-col`}>
+        {/* Left Section (Background image + gradient overlay) */}
+        <div 
+          className={`hidden w-[40%] lg:flex flex-col items-center justify-center text-white p-10 relative`}
+          style={{
+            backgroundImage: `linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url(${image})`,
+            backgroundSize: "cover",
+            backgroundPosition:"center"
+          }}
+        >
+          <img src={assets.logo} alt="logo" className="w-38 mb-6 absolute top-[2rem] left-[2rem]"/>
+          <h2 className="text-4xl font-extrabold mb-4 text-center">{direction[0] === "Sign Up" ? "Hello, Friend!" : "Welcome Back!"}</h2>
+          <p className="text-lg text-gray-200 text-center font-medium mb-6">{formText}</p>
+          <Link to={direction[1]} className="px-8 py-3 bg-white text-indigo-700 font-semibold rounded-[10px] shadow hover:bg-gray-200 transition">{direction[0]}</Link>
         </div>
-      </div>
-      <form onSubmit={formAction} className='lg:bg-pryClr w-full lg:w-[60%] rounded-[10px] m-6 pt-6 pb-9 lg:shadow-[3px_3px_14px_#796fab] flex flex-col lg:h-fit lg:relative gap-6 items-center'>
-        <div className="flex flex-col gap-4 items-center w-full">
-          <h2 className='text-4xl lg:text-5xl text-secClrWhite font-bold'>{formSubject}</h2>
-          <p className='text-accClrYellow text-base lg:text-[18px] font-[400]'>{formText}</p>
-        </div>
-        <div className="flex flex-col gap-6 w-full lg:w-[80%]">
-          {
-            fields?.map((field,key)=>(
-              <div className="flex items-center justify-center relative" key={key}>
-                <div className={`absolute ${field.labelPosition === "right" ? 'right-[-.5rem]' : 'left-[-.5rem]'} bg-accClrYellow rounded-full text-black text-center p-[.7rem] lg:p-[1rem] font-medium`}>
-                  <field.icon size={30}/>
+
+        {/* Right Section (Form) */}
+        <form onSubmit={formAction} className={`lg:w-[55%] flex flex-col gap-6 p-5 lg:p-12 lg:justify-center`}>
+          <div className={`flex flex-col gap-2 text-center`}>
+            <h2 className="text-3xl lg:text-4xl font-bold text-white lg:text-gray-800">{formSubject}</h2>
+          </div>
+
+          <div className="flex flex-col gap-4">
+            {fields?.map((field,key)=>(
+              <div className="relative" key={key}>
+                <input 
+                  type={field.type} 
+                  placeholder={field.placeholder} 
+                  className="w-full border border-gray-300 rounded-xl py-3 px-4 lg:bg-none bg-white text-gray-800 text-base focus:ring-2 focus:ring-indigo-500 focus:outline-none" 
+                  required 
+                  onChange={field.onChange}
+                />
+                <div className="absolute right-3 top-3 text-gray-400">
+                  <field.icon size={22}/>
                 </div>
-                <input type={`${field.type}`} placeholder={`${field.placeholder}`} className={`w-[90%] bg-secClrWhite rounded-full py-3 ${field.labelPosition === "right" ? "px-3" : "px-[3.3rem] lg:px-[4rem]"} text-black text-base font-bold outline-0 w-full`} required onChange={field.onChange}/>
               </div>
-            ))
-          }
-          <button className='w-full p-2 bg-secClrWhite rounded-full font-bold text-xl lg:text-[24px] cursor-pointer text-black'>{btnText}</button>
-          <h3 className={`lg:absolute bottom-[-2rem] text-${otherTextcol} text-center w-[89%] text-base lg:text-xl font-semibold`}>{otherActions[0]} <Link to={`/${otherActions[2]}`} className='text-blue-800 hover:underline'>{otherActions[1]}</Link></h3>
-        </div>
-      </form>
+            ))}
+
+            <button disabled={disabled} className="w-full py-3 bg-pryClr hover:bg-[#3d346c] transition-all text-white rounded-xl font-semibold text-lg cursor-pointer">
+              {btnText}
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   )
 }

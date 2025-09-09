@@ -1,27 +1,40 @@
-import React, { useState } from "react";
-import { ArrowDown, Eye, EyeOff } from "lucide-react";
+import React, { useContext, useState } from "react";
+import { ArrowDown, CheckCircle, Eye, EyeOff, MousePointerClick, Wallet } from "lucide-react";
 import Ongoing from "./subpage/Ongoing";
 import { Link } from "react-router-dom";
 import History from "./History";
 import assets from "../assets/assests";
+import { AuthContext } from "../context/AuthContext";
 
 const Dashboard = () => {
   const [showBalance, setShowBalance] = useState(true);
+  const {getUserDetails} = useContext(AuthContext);
+  const user = getUserDetails();
+  console.log(user)
+  const customizeName = (name)=>{
+    if (name.split(' ')[0] && name.split(' ')[1]) {
+      const firstName = name.split(" ")[0];
+      const lastNameInitials = name.split(" ")[1][0];
+      return `${firstName}, ${lastNameInitials}.`;
+    }else{
+      return name
+    }
+  }
+
+  const customName = customizeName(user.full_name)
 
   return (
-    <div className="flex flex-col gap-8 lg:mt-10 mt-0">
-      {/* Top Welcome Section */}
-      <div className="relative bg-pryClr/35 rounded-2xl p-10 flex items-center shadow-md overflow-visible">
+    <div className="flex flex-col gap-8">
+      <div className="relative bg-pryClr/35 rounded-2xl p-5 lg:p-10 flex items-center shadow-md overflow-visible lg:mt-12">
         <div>
-          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800">
-            Hi, Prime
+          <h1 className="text-xl md:text-3xl lg:text-4xl font-bold text-gray-800">
+            Hi, {customName}
           </h1>
-          <p className="text-gray-600 mt-1 text-[12px] md:text-base lg:text-lg ">
+          <p className="text-gray-600 mt-1 text-[12px] md:text-base lg:text-lg lg:w-full w-[70%]">
             Ready to start your day with some activities?
           </p>
         </div>
 
-        {/* Illustration Image */}
         <img
           src={assets.ill}
           alt="Illustration"
@@ -31,64 +44,77 @@ const Dashboard = () => {
         />
       </div>
 
-      {/* Stats Cards Section */}
-      <p className="text-secClrBlack -mb-5 md:-mt-2 sm:-mt-5 capitalize  text-xl font-medium ">
-            overview
-          </p>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {/* Wallet Balance */}
-        <div className="bg-pryClr rounded-xl p-6 flex flex-col items-center justify-center shadow">
-          <p className="text-sm text-secClrWhite capitalize lg:text-xl">
-            Wallet Balance
-          </p>
-          <h2 className="text-3xl font-bold mt-2 text-accClrYellow">
-            {showBalance ? "₦5,000" : "****"}
-          </h2>
-          <button
-            onClick={() => setShowBalance(!showBalance)}
-            className="mt-3 text-white"
-          >
-            {showBalance ? (
-              <EyeOff className="w-6 h-6 cursor-pointer" />
-            ) : (
-              <Eye className="w-6 h-6 cursor-pointer" />
-            )}
-          </button>
-        </div>
+       
+      <div className="space-y-6">
+        <p className="text-secClrBlack capitalize text-2xl font-semibold tracking-wide">
+          Overview
+        </p>
 
-        {/* Links Clicked */}
-        <div className="bg-pryClr rounded-xl p-6 flex flex-col items-center justify-center shadow">
-          <p className="text-sm text-secClrWhite capitalize lg:text-xl">
-            Links Clicked
-          </p>
-          <h2 className="text-3xl font-bold mt-2 text-secClrWhite">70</h2>
-        </div>
+        <div className="flex gap-6 md:flex-row md:gap-8 flex-wrap">
+          <div className="flex-1 bg-gradient-to-br from-pryClr to-pryClr/80 rounded-2xl p-6 flex flex-col lg:items-center md:items-start justify-center shadow-lg hover:shadow-xl transition">
+            <div className="flex items-center gap-3">
+              <Wallet className="w-7 h-7 text-accClrYellow" />
+              <p className="text-sm lg:text-lg font-medium text-secClrWhite capitalize">
+                Wallet Balance
+              </p>
+            </div>
+            <div className="flex items-center gap-5">
+              <h2 className="text-3xl lg:text-4xl font-extrabold mt-3 text-accClrYellow">
+                {showBalance ? user.balance : "****"}
+              </h2>
+              <button
+                onClick={() => setShowBalance(!showBalance)}
+                className="mt-3 text-secClrWhite hover:text-accClrYellow transition"
+              >
+                {showBalance ? (
+                  <EyeOff className="w-6 h-6 cursor-pointer" />
+                ) : (
+                  <Eye className="w-6 h-6 cursor-pointer" />
+                )}
+              </button>
+            </div>
+          </div>
 
-        {/* Completed */}
-        <div className="bg-pryClr rounded-xl p-6 flex flex-col items-center justify-center shadow">
-          <p className="text-sm text-secClrWhite capitalize lg:text-xl">
-            Completed
-          </p>
-          <h2 className="text-3xl font-bold mt-2 text-secClrWhite">10</h2>
+          <div className="flex-1 bg-gradient-to-br from-pryClr to-pryClr/80 rounded-2xl p-6 flex flex-col lg:items-center md:items-start justify-center shadow-lg hover:shadow-xl transition">
+            <div className="flex items-center gap-3">
+              <MousePointerClick className="w-7 h-7 text-secClrWhite" />
+              <p className="text-sm lg:text-lg font-medium text-secClrWhite capitalize">
+                Links Clicked
+              </p>
+            </div>
+            <h2 className="text-3xl lg:text-4xl font-extrabold mt-3 text-secClrWhite">
+              70
+            </h2>
+          </div>
+
+          <div className="flex-1 bg-gradient-to-br from-pryClr to-pryClr/80 rounded-2xl p-6 flex flex-col lg:items-center md:items-start justify-center shadow-lg hover:shadow-xl transition">
+            <div className="flex items-center gap-3">
+              <CheckCircle className="w-7 h-7 text-green-400" />
+              <p className="text-sm lg:text-lg font-medium text-secClrWhite capitalize">
+                Completed
+              </p>
+            </div>
+            <h2 className="text-3xl lg:text-4xl font-extrabold mt-3 text-secClrWhite">
+              10
+            </h2>
+          </div>
         </div>
       </div>
 
-      {/* Ongoing Offers Section */}
       <div className="flex flex-col gap-4">
         <div className="flex justify-between">
           <h2 className="text-xl font-medium">Ongoing Offer</h2>
           <Link
             to={"/refer"}
-            className="text-base font-semibold flex items-center gap-1 hover:underline"
+            className="text-base font-semibold flex items-center hover:underline"
           >
-            <ArrowDown size={20} className="rotate-[-135deg]" />
             See all
+            <ArrowDown size={20} className="rotate-[-140deg]" />
           </Link>
         </div>
-        <Ongoing />
+        <Ongoing isRecent={true}/>
       </div>
 
-      {/* History Section */}
       <div className="flex flex-col gap-4">
         <History isRecent={true} />
       </div>

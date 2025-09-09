@@ -87,7 +87,7 @@ const Signup = () => {
         throw new Error("Please fill in all fields");
       }
 
-      if (formData.password.length < 6) {
+      if (formData.password.length < 8) {
         throw new Error("Password must be at least 6 characters long");
       }
 
@@ -104,6 +104,9 @@ const Signup = () => {
       setError(err.message);
       console.error("Registration error:", err);
       toast.error(error)
+      if (err.message === `Failed to fetch`) {
+        toast.error('An unexpected error occured while signing up, please try again')
+      }
     } finally {
       setLoading(false);
     }
@@ -112,16 +115,13 @@ const Signup = () => {
   return (
     <>
       <Edit
-        image={assets.signUp}
+        image={assets.signUp2}
         fields={fields}
-        formSubject={"user registration"}
-        formText={"lets Start this journey and make money"}
-        otherActions={["Already have an account?", "Login", "login"]}
+        formSubject={"User Registration"}
+        formText={"To keep connected with us please login with your personal info"}
+        direction={["Log in","/login"]}
         btnText={loading ? "Registering..." : "Register"}
         formAction={handleSubmit}
-        bg={"black"}
-        imgWid={"90%"}
-        smBg={"../../../public/signup-logo.png"}
         disabled={loading}
       />
     </>

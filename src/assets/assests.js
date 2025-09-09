@@ -8,7 +8,9 @@ import withdraw from "./images/withdraw.png"
 import out from "./images/out.png"
 import profileicon from "./images/profile.png"
 import signUp from "./images/signup-logo.png"
+import signUp2 from "./images/signup2.png"
 import login from "./images/login.png"
+import login2 from "./images/login2.jpg"
 import flyer from "./images/flyer.jpg"
 import ill from "./images/Programmer-bro.png"
 
@@ -27,7 +29,9 @@ const assets = {
     profileicon,
     signUp,
     login,
+    login2,
     logo2,
+    signUp2,
     ill
 }
 
