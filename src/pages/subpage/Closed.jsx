@@ -1,89 +1,130 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { Copy } from 'lucide-react';
-import { AuthContext } from '../../context/AuthContext';
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { Loader2 } from "lucide-react";
+import { AuthContext } from "../../context/AuthContext";
+import assets from "../../assets/assests";
 
-const Closed = () => {
-  const [closedoffer, setClosedOffer] = useState([]);
-  const {getRequestWithToken,getUserDetails} = useContext(AuthContext);
-  const user = getUserDetails();
-  const fetchClosedOffer = async ()=>{
+const Closed = ({ isRecent = false }) => {
+  const linkRef = useRef(null);
+  const [closedOffers, setClosedOffers] = useState([]);
+  const { getRequestWithToken } = useContext(AuthContext);
+  const [isFetching, setIsFetching] = useState(false);
+
+  const fetchClosedOffers = async () => {
+    setIsFetching(true);
     try {
-      const res = await getRequestWithToken("/offers/closed")
+      const res = await getRequestWithToken("/offers/closed");
       console.log(res);
-      setClosedOffer(res.offers.data)
-      console.log(closedoffer)
+      setClosedOffers(res.offers.data);
     } catch (err) {
-      console.log(err)
+      console.log(err);
+    } finally {
+      setIsFetching(false);
     }
-
   };
 
-   useEffect(() => {
-      fetchClosedOffer()
-    }, [])
 
+  useEffect(() => {
+    fetchClosedOffers();
+  }, []);
 
+  const visibleOffers = isRecent ? closedOffers.slice(0, 2) : closedOffers;
 
   return (
-    <div className="pb-24 lg:pb-6  mx-auto">
-      <div className="bg-pryClr rounded-2xl p-6 shadow-lg border border-accClrYellow transition-all duration-300 hover:shadow-xl opacity-90">{
-        closedoffer.map((offer,key) =>(
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8" key={key}>
-          <div className="overflow-hidden rounded-xl">
-            <img
-              src={offer.image}
-              alt="Flyer"
-              className="w-full h-auto object-cover filter grayscale transform hover:scale-105 transition-all duration-300"
-            />
-          </div>
+    <div className={`${isRecent ? "pb-0" : "pb-24 lg:pb-6"}`} style={{userSelect:"none"}}>
+      <div className="flex flex-col gap-3">
+        {isFetching ? (
+          <Loader2
+            className="animate-spin text-pryClr w-full mx-auto text-[50px]"
+            size={50}
+          />
+        ) : (
+          visibleOffers.map((offer, key) => (
+            <div
+              key={key}
+              className="flex flex-col lg:flex-row items-center gap-6 lg:gap-10 bg-white rounded-xl shadow-md p-4 hover:shadow-lg transition-all duration-300 w-full"
+            >
+              {/* Left side image */}
+              <img
+                src={assets.flyer}
+                alt="Offer"
+                className="lg:w-[18%] w-full md:h-48 rounded-lg object-cover grayscale-100"
+              />
 
-          <div className="space-y-4">
-            <div className="flex flex-col gap-2">
-              <h1 className="text-base lg:text-lg font-semibold text-secClrWhite">My Username</h1>
-              <div className="bg-pryClr rounded-lg p-3 border border-secClrWhite/30">
-                <h1 className="text-base lg:text-lg text-secClrWhite font-medium">{user.username}</h1>
-              </div>
-            </div>
+              {/* Right side details */}
+              <div className="flex-1 space-y-3">
+                {/* Title */}
+                <h2 className="font-semibold text-base md:text-lg">
+                  {offer.title || "Closed Offer"}
+                </h2>
 
-            <div className="flex flex-col gap-2">
-              <h1 className="text-base lg:text-lg font-semibold text-secClrWhite">My Link</h1>
-              <div className="bg-pryClr rounded-lg p-3 border border-secClrWhite/30 flex items-center justify-between gap-2">
-                <h1 className="text-base lg:text-lg text-secClrWhite truncate">{offer.referral_link}</h1>
-                <button disabled className="p-2 rounded-full bg-pryClr opacity-50 cursor-not-allowed">
-                  <Copy className="w-5 h-5 text-secClrWhite/50" />
-                </button>
-              </div>
-            </div>
+                {/* Description */}
+                <p className="text-gray-600 text-sm md:text-base line-clamp-2">
+                  {offer.description || "This is a closed offer."}
+                </p>
 
-            <div className="flex flex-col gap-2">
-              <h1 className="text-base lg:text-lg font-semibold text-secClrWhite">Bonus Per Referral</h1>
-              <div className="bg-pryClr rounded-lg p-3 border border-secClrWhite/30">
-                <h1 className="text-base lg:text-lg text-secClrWhite font-medium">₦{offer.bonus_per_referral}</h1>
-              </div>
-            </div>
+                {/* Referral Link */}
+                <div>
+                  <p className="text-gray-500 text-sm">
+                    {offer.referral_link ? 'My Link' : ''}
+                  </p>
+                  <div className="flex items-center gap-2 pointer-events-none">
+                    <span
+                      className="text-blue-500 pointer-events-none text-sm md:text-base truncate max-w-[200px] md:max-w-[400px] cursor-pointer"
+                      ref={linkRef}
+                    >
+                      {offer.referral_link}
+                      https://referral.buggybillions.com.ng/public/api/r/ibrahimos/1
+                    </span>
+                  </div>
+                </div>
 
-            <div className="flex flex-col gap-2">
-              <h1 className="text-base lg:text-lg font-semibold text-secClrWhite">End Date</h1>
-              <div className="bg-pryClr rounded-lg p-3 border border-secClrWhite/30">
-                <h1 className="text-base lg:text-lg text-secClrWhite font-medium">{offer.end_date}</h1>
+                {/* Bonus & End Date */}
+                <div className="flex flex-wrap gap-6">
+                  <div>
+                    <p className="text-gray-500 lg:text-sm text-xs">
+                      Bonus Per Referral
+                    </p>
+                    <p className="font-medium text-gray-800">
+                      ₦{offer.bonus_per_referral}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-gray-500 lg:text-sm text-xs">End Date</p>
+                    <p className="font-medium text-gray-800">
+                      {offer.end_date}
+                    </p>
+                  </div>
+                </div>
               </div>
-            </div>
 
-            <div className="grid grid-cols-2 gap-4 mt-6">
-              <div className="bg-pryClr rounded-xl p-4 flex flex-col items-center justify-center border border-accClrYellow transition-all duration-300 hover:scale-105">
-                <p className="text-sm lg:text-base text-secClrWhite capitalize">No of Clicks</p>
-                <h2 className="text-2xl lg:text-3xl font-bold mt-2 text-accClrYellow">{offer.clicks}</h2>
-              </div>
-              <div className="bg-pryClr rounded-xl p-4 flex flex-col items-center justify-center border border-accClrYellow transition-all duration-300 hover:scale-105">
-                <p className="text-sm lg:text-base text-secClrWhite capitalize">Completed Sales</p>
-                <h2 className="text-2xl lg:text-3xl font-bold mt-2 text-accClrYellow">{offer.completed_sales}</h2>
-              </div>
+              {
+                offer.clicks && offer.completed_sales ? (
+                  <div className="flex flex-row lg:flex-col gap-4 mt-4 w-full lg:w-auto">
+                    <div className="rounded-xl p-4 flex gap-3 items-center justify-center border border-yellow-400 transition-all duration-300 hover:scale-105">
+                      <p className="text-xs lg:text-base text-gray-600 capitalize font-medium">
+                        No of Clicks
+                      </p>
+                      <h2 className="text-2xl lg:text-3xl font-bold mt-2 text-accClrYellow">
+                        {offer.clicks}
+                      </h2>
+                    </div>
+
+                    <div className="flex rounded-xl p-4 gap-2 items-center justify-center border border-accClrYellow transition-all duration-300 hover:scale-105">
+                      <p className="text-xs lg:text-base text-gray-600 capitalize font-medium">
+                        Completed Sales
+                      </p>
+                      <h2 className="text-2xl lg:text-3xl font-bold mt-2 text-accClrYellow">
+                        {offer.completed_sales}
+                      </h2>
+                    </div>
+                  </div>
+                ) : (
+                 null 
+                )
+              }
             </div>
-          </div>
-        </div>
-        ))
-        }
-        
+          ))
+        )}
       </div>
     </div>
   );

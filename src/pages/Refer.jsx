@@ -6,13 +6,13 @@ const Refer = () => {
   const [activeTab, setActiveTab] = useState('ongoing');
 
   return (
-    <div className="lg:p-6 rounded-lg mx-auto bg-transparent md:bg-pryClr">
-      <div className="flex gap-4 mb-6 bg-pryClr rounded-xl  border border-accClrYellow shadow-md">
+    <div className="lg:p-6 rounded-lg mx-auto bg-transparent">
+      <div className="flex gap-4 mb-6 rounded-xl  border border-pryClr shadow-md">
         <button
           className={`flex-1 py-3 px-4 text-base lg:text-lg font-semibold rounded-lg transition-all duration-300 ${
             activeTab === 'ongoing'
-              ? 'bg-accClrYellow text-secClrBlack shadow-md'
-              : 'text-secClrWhite hover:bg-accClrYellow/50'
+              ? 'bg-pryClr text-white shadow-md'
+              : 'text-secClrBlack hover:bg-pryClr/50'
           }`}
           onClick={() => setActiveTab('ongoing')}
         >
@@ -21,8 +21,8 @@ const Refer = () => {
         <button
           className={`flex-1 py-3 px-4 text-base lg:text-lg font-semibold rounded-lg transition-all duration-300 ${
             activeTab === 'closed'
-              ? 'bg-accClrYellow text-secClrBlack shadow-md'
-              : 'text-secClrWhite hover:bg-accClrYellow/50'
+              ? 'bg-pryClr text-white shadow-md'
+              : 'text-secClrBlack hover:bg-pryClr/50'
           }`}
           onClick={() => setActiveTab('closed')}
         >

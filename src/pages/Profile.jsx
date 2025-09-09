@@ -29,6 +29,7 @@ const PasswordSchema = Yup.object().shape({
 const Profile = () => {
   const navigate = useNavigate()
   const [isEditing, setIsEditing] = useState(false);
+  const [isSavingBankDetails,setIsSavingBankDetails] = useState(false)
   const [isSaving, setIsSaving] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const [showBankForm, setShowBankForm] = useState(false);
@@ -133,31 +134,42 @@ const Profile = () => {
     setBankDetails((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleBankSubmit = (e) => {
-    e.preventDefault();
-    if (!bankDetails.account_name) {
-      toast.error('Please verify bank details.');
-      return;
+  const handleBankSubmit = async (e) => {
+    setIsSavingBankDetails(true)
+    try {
+      e.preventDefault();
+      if (!bankDetails.account_name) {
+        toast.error('Please verify bank details.');
+        return;
+      }
+      const selectedBank = listOfBanks.find((bank) => bank.code === bankDetails.bank_code);
+      const updatedDetails = {
+        ...bankDetails,
+        bank_name: selectedBank ? selectedBank.name : '',
+      };
+      setBankDetails(updatedDetails);
+      const res = await authRequestWithToken("/user/profile",profile,"PUT");
+      if (res.success === true) {
+        toast.success('Bank details saved successfully!', {
+          description: 'Your bank details have been updated.',
+        });
+        setSuccessPopup({
+          show: true,
+          message: 'Your bank details have been saved successfully!',
+        });
+      }else{
+        toast.error(res.message)
+      }
+      setShowBankForm(false);
+    } catch (error) {
+      console.log(error)
+    } finally{
+      setIsSavingBankDetails(false)
     }
-    const selectedBank = listOfBanks.find((bank) => bank.code === bankDetails.bank_code);
-    const updatedDetails = {
-      ...bankDetails,
-      bank_name: selectedBank ? selectedBank.name : '',
-    };
-    setBankDetails(updatedDetails);
-    localStorage.setItem('bankDetails', JSON.stringify(updatedDetails));
-    toast.success('Bank details saved successfully!', {
-      description: 'Your bank details have been updated.',
-    });
-    setSuccessPopup({
-      show: true,
-      message: 'Your bank details have been saved successfully!',
-    });
-    setShowBankForm(false);
   };
 
   return (
-    <div className="py-12 p-4 md:p-8 rounded-xl mx-auto min-h-screen bg-pryClr space-y-6 pb-24 lg:pb-6">
+    <div className="py-12 p-4 md:p-8 rounded-xl mx-auto min-h-screen bg-pryClr space-y-6 mb-24 lg:pb-6">
       <div className="flex flex-col items-center">
         <div className="relative">
           <img
@@ -272,7 +284,7 @@ const Profile = () => {
               type="submit"
               className="w-full bg-accClrPink text-secClrWhite px-4 py-2 rounded-lg font-semibold text-base lg:text-lg hover:bg-accClrPink/90 transition-all duration-300 transform hover:scale-105"
             >
-              Save Bank Details
+              {isSavingBankDetails ? "Saving Bank Details...." : "Save Bank Details"}
             </button>
           </form>
         )}
