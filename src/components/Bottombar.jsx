@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   MdDashboard,
   MdHistory,
@@ -6,8 +6,13 @@ import {
   MdGroupAdd,
   MdPerson,
 } from "react-icons/md";
+import { GiWantedReward } from "react-icons/gi";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 const Bottombar = () => {
+  const {checkAccountType} = useContext(AuthContext);
+  const accountType = checkAccountType();
   const location = useLocation();
 
   const linkClasses = (path) =>
@@ -15,30 +20,76 @@ const Bottombar = () => {
       location.pathname === path
         ? "text-accClrYellow font-semibold bg-white/10 rounded-lg py-2 px-3"
         : "text-secClrWhite hover:text-accClrYellow hover:bg-white/5"
-    }`;
+  }`;
+  const userPages = [
+    {
+      name:"Dashboard",
+      path:"/dashboard",
+      icon:MdDashboard
+    },
+    {
+      name:"History",
+      path:"/history",
+      icon:MdHistory
+    },
+    {
+      name:"Withdraw",
+      path:"/withdraw",
+      icon:MdAccountBalanceWallet
+    },
+    {
+      name:"Refer & Earn",
+      path:"/refer",
+      icon:MdGroupAdd
+    },
+    {
+      name:"Profile",
+      path:"/profile",
+      icon:MdPerson
+    },
+  ];
+  const adminPages = [
+    {
+      name:"Dashboard",
+      path:"/dashboard",
+      icon:MdDashboard
+    },
+    {
+      name:"Offers",
+      path:"/offers",
+      icon:GiWantedReward
+    },
+    {
+      name:"Withdrawals",
+      path:"/withdrawals",
+      icon:MdAccountBalanceWallet
+    },
+    // {
+    //   name:"Refer & Earn",
+    //   path:"/refer"
+    // },
+    {
+      name:"Profile",
+      path:"/profile",
+      icon:MdPerson
+    },
+  ];
+  const navigate = useNavigate()
+
+  const pages = accountType === "user" ? userPages : accountType === "admin" ? adminPages : navigate("/login")
 
   return (
     <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-pryClr shadow-lg h-16 flex justify-around items-center z-50 border-t border-white/10">
-      <Link to="/dashboard" className={linkClasses("/dashboard")}>
-        <MdDashboard size={26} />
-        <span className="mt-1 text-xs tracking-wide">Dashboard</span>
-      </Link>
-      <Link to="/history" className={linkClasses("/history")}>
-        <MdHistory size={26} />
-        <span className="mt-1 text-xs tracking-wide">History</span>
-      </Link>
-      <Link to="/withdraw" className={linkClasses("/withdraw")}>
-        <MdAccountBalanceWallet size={26} />
-        <span className="mt-1 text-xs tracking-wide">Withdraw</span>
-      </Link>
-      <Link to="/refer" className={linkClasses("/refer")}>
-        <MdGroupAdd size={26} />
-        <span className="mt-1 text-xs tracking-wide">Refer</span>
-      </Link>
-      <Link to="/profile" className={linkClasses("/profile")}>
-        <MdPerson size={26} />
-        <span className="mt-1 text-xs tracking-wide">Profile</span>
-      </Link>
+      {
+        pages.map((page,index) =>(
+          <>
+            <Link key={index} to={page.path} className={linkClasses(page.path)}>
+              <page.icon size={26} />
+              <span className="mt-1 text-xs tracking-wide">{page.name}</span>
+            </Link>
+          </>
+        ))
+      }
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   MdDashboard,
   MdHistory,
@@ -10,15 +10,73 @@ import {
 import assets from "../assets/assests";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { GiWantedReward } from "react-icons/gi";
 
 const Sidebar = () => {
-  const {logout} = useContext(AuthContext);
+  const {logout,checkAccountType} = useContext(AuthContext);
+  const accountType = checkAccountType();
   const linkClasses = (path) =>
     `flex items-center gap-4 p-3 rounded-xl transition-all duration-300 transform hover:scale-105 ${
       location.pathname === path
         ? "text-yellow-400 font-semibold bg-gradient-to-r from-white/10 to-transparent border-l-4 border-yellow-400"
         : "text-white hover:text-yellow-300 hover:bg-white/10"
-    }`;
+  }`;
+  const userPages = [
+    {
+      name:"Dashboard",
+      path:"/dashboard",
+      icon:MdDashboard
+    },
+    {
+      name:"History",
+      path:"/history",
+      icon:MdHistory
+    },
+    {
+      name:"Withdraw",
+      path:"/withdraw",
+      icon:MdAccountBalanceWallet
+    },
+    {
+      name:"Refer & Earn",
+      path:"/refer",
+      icon:MdGroupAdd
+    },
+    {
+      name:"Profile",
+      path:"/profile",
+      icon:MdPerson
+    },
+  ];
+  const adminPages = [
+    {
+      name:"Dashboard",
+      path:"/dashboard",
+      icon:MdDashboard
+    },
+    {
+      name:"Offers",
+      path:"/offers",
+      icon:GiWantedReward
+    },
+    {
+      name:"Withdrawals",
+      path:"/withdrawals",
+      icon:MdAccountBalanceWallet
+    },
+    // {
+    //   name:"Refer & Earn",
+    //   path:"/refer"
+    // },
+    {
+      name:"Profile",
+      path:"/profile",
+      icon:MdPerson
+    },
+  ];
+  const navigate = useNavigate()
+
+  const pages = accountType === "user" ? userPages : accountType === "admin" ? adminPages : navigate("/login")
 
   return (
     <aside className="hidden lg:flex flex-col w-64 bg-pryClr text-white h-screen p-6 justify-between shadow-xl">
@@ -31,26 +89,16 @@ const Sidebar = () => {
 
         {/* Navigation */}
         <nav className="flex flex-col space-y-3">
-          <Link to="/dashboard" className={linkClasses("/dashboard")}>
-            <MdDashboard size={24} />
-            <span className="text-base tracking-wide">Dashboard</span>
-          </Link>
-          <Link to="/history" className={linkClasses("/history")}>
-            <MdHistory size={24} />
-            <span className="text-base tracking-wide">History</span>
-          </Link>
-          <Link to="/withdraw" className={linkClasses("/withdraw")}>
-            <MdAccountBalanceWallet size={24} />
-            <span className="text-base tracking-wide">Withdraw</span>
-          </Link>
-          <Link to="/refer" className={linkClasses("/refer")}>
-            <MdGroupAdd size={24} />
-            <span className="text-base tracking-wide">Refer & Earn</span>
-          </Link>
-          <Link to="/profile" className={linkClasses("/profile")}>
-            <MdPerson size={24} />
-            <span className="text-base tracking-wide">Profile</span>
-          </Link>
+          {
+            pages.map((page,index) =>(
+              <>
+                <Link key={index} to={page.path} className={linkClasses(page.path)}>
+                  <page.icon size={24} />
+                  <span className="text-base tracking-wide">{page.name}</span>
+                </Link>
+              </>
+            ))
+          }
         </nav>
       </div>
 

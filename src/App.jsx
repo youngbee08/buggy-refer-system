@@ -16,6 +16,8 @@ import { Toaster } from "sonner";
 import AuthProvider from "./provider/AuthProvider";
 import ProtectedRoute from "./components/ProtectedRoute";
 import RedirectRoute from "./components/redirectRoute";
+import Offers from "./pages/Offers";
+import Withdrawals from "./pages/Withdrawals";
 
 // import Signup from "./pages/Signup";
 // import Login from "./pages/Login";
@@ -27,26 +29,45 @@ function App() {
         <Routes>
           <Route element={<RedirectRoute/>}>
             <Route path="/" element={<Signup />} />
-            {/* <Route path="/register" element={<Signup />} /> */}
+
             <Route path="/login" element={<Login />} />
-            {/* <Route path="/login" element={<Login />} /> */}
+
             <Route path="/signup" element={<Signup />} />
+
             <Route path="/setup-pin" element={<SetupPin />} />
           </Route>
+
           <Route element={<ProtectedRoute/>}>
             <Route
               path={"/dashboard"}
               element={<Maindashboard children={<Dashboard />} />}
             />
+
             <Route
               path={"/history"}
               element={<Maindashboard children={<History />} />}
             />
+
             <Route
               path={"/withdraw"}
               element={<Maindashboard children={<Withdraw />} />}
             />
-            <Route path={"/refer"} element={<Maindashboard children={<Refer />} />} />
+
+            <Route 
+            path={"/refer"} 
+            element={<Maindashboard children={<Refer />} />} 
+            />
+
+            <Route 
+            path="offers" 
+            element={<Maindashboard children={<Offers/>}/>}
+            />
+
+            <Route 
+            path="withdrawals" 
+            element={<Maindashboard children={<Withdrawals/>}/>}
+            />
+            
             <Route
               path={"/profile"}
               element={<Maindashboard children={<Profile />} />}

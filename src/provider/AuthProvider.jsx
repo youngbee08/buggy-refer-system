@@ -11,10 +11,20 @@ const AuthProvider = ({children}) => {
   const location = useLocation()
   const checkIsAuthenticated = ()=>{
     const hasToken = localStorage.getItem("authToken")
-    if (!hasToken) {
+    const hasDetails = localStorage.getItem("userData")
+    if (!hasToken && !hasDetails) {
       return (false)
     }else{
       return(true)
+    }
+  }
+
+  const checkAccountType = ()=>{
+    const user = getUserDetails();
+    if (user.role === "user") {
+      return "user"
+    }else if (user.role === "admin") {
+      return "admin"
     }
   }
 
@@ -115,9 +125,12 @@ const AuthProvider = ({children}) => {
   };
 
   const fetchUserDetails = async ()=>{
-    const res = await getRequestWithToken("/user/profile");
-    setUser(res.user);
-    localStorage.setItem("userData", JSON.stringify(res.user))
+    const accountType = checkAccountType();
+    if (accountType === "user") {
+      const res = await getRequestWithToken("/user/profile");
+      setUser(res?.user);
+      localStorage.setItem("userData", JSON.stringify(res.user))
+    }
   };
 
   useEffect(() => {
@@ -127,6 +140,7 @@ const AuthProvider = ({children}) => {
 
   const value = {
     checkIsAuthenticated,
+    checkAccountType,
     logout,
     setUser,
     getUserDetails,

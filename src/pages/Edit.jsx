@@ -26,7 +26,7 @@ const Edit =
           <h2 className="text-4xl font-extrabold mb-4 text-center">{direction[0] === "Sign Up" ? "Hello, Friend!" : "Welcome Back!"}</h2>
           <p className="text-lg text-gray-200 text-center font-medium mb-6">{formText}</p>
           <Link to={direction[1]} className="px-8 py-3 bg-white text-indigo-700 font-semibold rounded-[10px] shadow hover:bg-gray-200 transition">{direction[0]}</Link>
-        </div>
+      </div>
 
         {/* Right Section (Form) */}
         <form onSubmit={formAction} className={`lg:w-[55%] flex flex-col gap-6 p-5 lg:p-12 lg:justify-center`}>
