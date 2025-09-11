@@ -119,6 +119,7 @@ const Login = () => {
         btnText={loading ? "Logging in..." : "Login"} // Dynamic button text
         formAction={handleSubmit}
         disabled={loading} // Disable button while loading
+        otherOption="Don't have an account?"
       />
     </>
   );

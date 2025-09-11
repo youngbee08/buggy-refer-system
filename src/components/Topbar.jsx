@@ -2,22 +2,25 @@ import React, { useContext, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import assets from "../assets/assests";
 import { AuthContext } from "../context/AuthContext";
-import { AlertTriangle, Loader2, LogOut } from "lucide-react";
+import { AlertTriangle, Loader2, LogOut, User } from "lucide-react";
 
 const TopBar = () => {
-  const { getUserDetails,logout } = useContext(AuthContext);
+  const { getUserDetails,logout,checkAccountType } = useContext(AuthContext);
   const user = getUserDetails ? getUserDetails() : {};
   const [logoutModal, setLogoutModal] = useState({ show: false, message: '' });
   const [canLogout,setCanLogout] = useState(false);
   const [loggingOut,setLoggingOut] = useState(false)
   const location = useLocation();
+  const accountType = checkAccountType();
 
   const pageTitles = {
-    "/dashboard": "Dashboard",
+    "/dashboard": accountType === "user" ? "Dashboard" : accountType === "admin" ? "Admin Dashboard" : "Dashboard",
     "/history": "History",
     "/withdraw": "Withdraw",
     "/refer": "Refer & Earn",
     "/profile": "Profile",
+    "/withdrawals":"Withdrawals",
+    "/offers":"Offers"
   };
 
   const pageTitle = pageTitles[location.pathname] || "Dashboard";
@@ -68,8 +71,8 @@ const TopBar = () => {
 
         <div className="flex items-center justify-between gap-2">
           <img
-            src={assets.profile}
-            alt={user?.full_name || "User Avatar"}
+            src={accountType === "user" ? assets.profile : accountType === "admin" ? assets.adminAvatar : <User/>}
+            alt={user?.full_name || "Avatar"}
             className="w-12 h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 rounded-full object-cover"
           />
           <LogOut onClick={requestLogout} className="lg:hidden"/>
