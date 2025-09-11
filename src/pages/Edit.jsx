@@ -3,7 +3,7 @@ import assets from '../assets/assests'
 import { Link } from 'react-router-dom'
 
 const Edit = 
-({fields,image,formSubject,formText,btnText,formAction,direction,disabled}) => {
+({fields,image,formSubject,formText,btnText,formAction,direction,disabled,otherOption}) => {
   const flexDirection = direction[0] === "Sign Up" ? 'lg:flex-row-reverse' : 'lg:flex-row';
   return (
     <div className="relative lg:h-screen min-h-screen w-full flex items-center justify-center lg:bg-gray-100 lg:p-6 lg:flex-row flex-col" style={{
@@ -53,6 +53,7 @@ const Edit =
             <button disabled={disabled} className="w-full py-3 bg-pryClr hover:bg-[#3d346c] transition-all text-white rounded-xl font-semibold text-lg cursor-pointer">
               {btnText}
             </button>
+            <p className='lg:hidden text-white font-medium text-base text-center'>{otherOption} <Link to={direction[1]} className='underline text-pryClr'>{direction[0]}</Link></p>
           </div>
         </form>
       </div>

@@ -123,6 +123,7 @@ const Signup = () => {
         btnText={loading ? "Registering..." : "Register"}
         formAction={handleSubmit}
         disabled={loading}
+        otherOption="Already have an account?"
       />
     </>
   );
