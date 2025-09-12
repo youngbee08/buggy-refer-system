@@ -18,6 +18,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import RedirectRoute from "./components/redirectRoute";
 import Offers from "./pages/Offers";
 import Withdrawals from "./pages/Withdrawals";
+import Users from "./pages/Users";
 
 // import Signup from "./pages/Signup";
 // import Login from "./pages/Login";
@@ -66,6 +67,11 @@ function App() {
             <Route 
             path="withdrawals" 
             element={<Maindashboard children={<Withdrawals/>}/>}
+            />
+
+            <Route 
+            path="users" 
+            element={<Maindashboard children={<Users/>}/>}
             />
             
             <Route
