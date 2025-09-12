@@ -17,8 +17,8 @@ import AuthProvider from "./provider/AuthProvider";
 import ProtectedRoute from "./components/ProtectedRoute";
 import RedirectRoute from "./components/redirectRoute";
 import Offers from "./pages/Offers";
-import Withdrawals from "./pages/Withdrawals";
 import Users from "./pages/Users";
+import Withdrawals from "./pages/Withdrawals";
 
 // import Signup from "./pages/Signup";
 // import Login from "./pages/Login";
