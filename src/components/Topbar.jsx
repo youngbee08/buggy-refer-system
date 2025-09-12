@@ -19,6 +19,7 @@ const TopBar = () => {
     "/withdraw": "Withdraw",
     "/refer": "Refer & Earn",
     "/profile": "Profile",
+    "/users":"Users",
     "/withdrawals":"Withdrawals",
     "/offers":"Offers"
   };

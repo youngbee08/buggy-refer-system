@@ -11,6 +11,7 @@ import assets from "../assets/assests";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { GiWantedReward } from "react-icons/gi";
+import { Users } from "lucide-react";
 
 const Sidebar = () => {
   const {logout,checkAccountType} = useContext(AuthContext);
@@ -58,6 +59,11 @@ const Sidebar = () => {
       name:"Offers",
       path:"/offers",
       icon:GiWantedReward
+    },
+    {
+      name:"Users",
+      path:"/users",
+      icon:Users
     },
     {
       name:"Withdrawals",

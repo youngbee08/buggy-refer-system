@@ -9,6 +9,7 @@ import {
 import { GiWantedReward } from "react-icons/gi";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { Users } from "lucide-react";
 
 const Bottombar = () => {
   const {checkAccountType} = useContext(AuthContext);
@@ -58,6 +59,11 @@ const Bottombar = () => {
       name:"Offers",
       path:"/offers",
       icon:GiWantedReward
+    },
+    {
+      name:"Users",
+      path:"/users",
+      icon:Users
     },
     {
       name:"Withdrawals",
