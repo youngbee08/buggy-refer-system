@@ -85,7 +85,7 @@ const Sidebar = () => {
   const pages = accountType === "user" ? userPages : accountType === "admin" ? adminPages : navigate("/login")
 
   return (
-    <aside className="hidden lg:flex flex-col w-64 bg-pryClr text-white h-screen p-6 justify-between shadow-xl">
+    <aside className="hidden lg:flex flex-col w-80 bg-pryClr text-white h-screen p-6 justify-between shadow-xl">
       {/* Top Section (Logo + Nav) */}
       <div>
         {/* Logo */}

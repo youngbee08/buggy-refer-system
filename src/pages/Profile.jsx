@@ -169,7 +169,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="py-12 p-4 md:p-8 rounded-xl mx-auto min-h-screen bg-pryClr space-y-6 mb-24 lg:pb-6">
+    <div className="py-12 p-4 md:p-8 rounded-xl mx-auto min-h-screen bg-transparent space-y-6 mb-24 lg:pb-6">
       <div className="flex flex-col items-center">
         <div className="relative">
           <img
@@ -180,7 +180,7 @@ const Profile = () => {
         </div>
       </div>
 
-      <div className="bg-pryClr rounded-2xl p-6 shadow-lg border border-accClrYellow transition-all duration-300 hover:shadow-xl">
+      <div className="bg-pryClr rounded-2xl p-6 shadow-lg  transition-all duration-300 hover:shadow-xl">
         <div className="space-y-4">
           <div>
             <label className="block text-base lg:text-lg font-semibold text-secClrWhite">Full Name</label>
@@ -230,7 +230,7 @@ const Profile = () => {
         </div>
       </div>
 
-      <div className="bg-pryClr rounded-2xl p-6 shadow-lg border border-accClrYellow transition-all duration-300 hover:shadow-xl">
+      <div className="bg-pryClr rounded-2xl p-6 shadow-lg  transition-all duration-300 hover:shadow-xl">
         <button
           onClick={() => setShowBankForm(!showBankForm)}
           className="w-full flex justify-between items-center text-base lg:text-lg font-semibold text-secClrWhite hover:text-accClrYellow transition-all duration-300"
@@ -290,7 +290,7 @@ const Profile = () => {
         )}
       </div>
 
-      <div className="bg-pryClr rounded-2xl p-6 shadow-lg border border-accClrYellow transition-all duration-300 hover:shadow-xl">
+      <div className="bg-pryClr rounded-2xl p-6 shadow-lg  transition-all duration-300 hover:shadow-xl">
         <button
           onClick={() => setShowResetPassword(!showResetPassword)}
           className="w-full flex justify-between items-center text-base lg:text-lg font-semibold text-secClrWhite hover:text-accClrYellow transition-all duration-300"
