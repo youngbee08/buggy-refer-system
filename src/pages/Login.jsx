@@ -9,7 +9,7 @@ import { AuthContext } from "../context/AuthContext";
 const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 const Login = () => {
-  const {setUser,isAuthenticated} = useContext(AuthContext);
+  const {setUser,getUserDetails} = useContext(AuthContext);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false); // Uncommented
   const [error, setError] = useState(""); // Uncommented
@@ -19,12 +19,11 @@ const Login = () => {
     password: "",
   });
 
-  // API call with proper error handling
   const loginUser = async (userData) => {
     const response = await fetch(`${API_URL}/api/login`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json", // Fixed typo: was "content-Type"
+        "Content-Type": "application/json", 
       },
       body: JSON.stringify(userData),
     });
@@ -78,7 +77,6 @@ const Login = () => {
       // Call API
       const result = await loginUser(userData);
 
-      // Handle success
       toast.success(result.message)
 
       // Store user data or token if needed
@@ -92,9 +90,16 @@ const Login = () => {
       const user = JSON.parse(localStorage.getItem("userData"));
 
       user && setUser(user)
-      console.log(isAuthenticated)
-      // Navigate to dashboard
-      navigate("/dashboard");
+      const currentUser = getUserDetails();
+      if (currentUser.role === "user") {
+        if (currentUser.transaction_pin === null) {
+          navigate("/setup-pin")
+        }else{
+          navigate("/dashboard");
+        }
+      }else{
+        navigate("/dashboard");
+      }
 
     } catch (err) {
       console.error("Login error:", err);

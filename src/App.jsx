@@ -36,10 +36,14 @@ function App() {
 
             <Route path="/signup" element={<Signup />} />
 
-            <Route path="/setup-pin" element={<SetupPin />} />
           </Route>
 
           <Route element={<ProtectedRoute/>}>
+            <Route 
+            path="/setup-pin" 
+            element={<SetupPin />} 
+            />
+            
             <Route
               path={"/dashboard"}
               element={<Maindashboard children={<Dashboard />} />}

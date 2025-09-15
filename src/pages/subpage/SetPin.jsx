@@ -1,62 +1,85 @@
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import React, { useContext, useRef, useState } from "react";
+import { Loader2, Lock } from "lucide-react";
+import { AuthContext } from "../../context/AuthContext";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
-const SetupPin = () => {
-  const navigate = useNavigate();
-  const [pin, setPin] = useState('')
-  const numbers = [1,2,3,4,5,6,7,8,9,0]
+const SetPin = () => {
+  const inputsRef = useRef([]);
+  const [settingPin,setSettingPin] = useState(false);
+  const {authRequestWithToken} = useContext(AuthContext);
+  const navigate = useNavigate()
 
-  const handleNumberClick = (num) => {
-    if (pin.length < 4) setPin(pin + num)
-  }
+  const handleChange = (e, index) => {
+    const value = e.target.value;
 
-  const handleBackspace = () => {
-    setPin(pin.slice(0, -1))
-  }
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    if (pin.length === 4) {
-      console.log("PIN set to:", pin)
-      navigate("/dashboard")
-      // handle next action here
+    if (value && index < inputsRef.current.length - 1) {
+      inputsRef.current[index + 1].focus();
     }
-  }
+    const allFilled = inputsRef.current.every(input => input.value);
+    if (allFilled) {
+      handleSubmit();
+    }
+  };
+
+  const handleKeyDown = (e, index) => {
+    if (e.key === "Backspace" && !e.target.value && index > 0) {
+      inputsRef.current[index - 1].focus();
+    }
+  };
+
+  const handleSubmit = async() => {
+    setSettingPin(true)
+    try {
+      const pin = inputsRef.current.map((input) => input.value).join("");
+      const res = await authRequestWithToken("/user/profile",{transaction_pin:pin},"PUT");
+      if (res.success === true) {
+        navigate("/dashboard")
+      }else{
+        toast.error("An unexpected error occured while setting up pin")
+      }
+    } catch (error) {
+      console.log(error)
+    } finally{
+      setSettingPin(false)
+    }
+  };
 
   return (
-    <div className={`lbg-cover h-[100vh] w-full flex justify-center items-center lg:bg-black`} style={{
-      backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.4)), url(${window.innerWidth >= 1000 ? '' : '../../../public/signup-logo.png'})`, backgroundRepeat:"no-repeat", backgroundPosition:"center", backgroundSize:"cover"
-    }}>
-      <form onSubmit={handleSubmit} className='lg:bg-pryClr w-[90%] lg:w-[40%] rounded-[10px] m-6 pt-6 pb-9 lg:shadow-[3px_3px_14px_#796fab] flex flex-col gap-6 items-center'>
-        <div className="flex flex-col gap-4 items-center w-full">
-          <h2 className='text-4xl lg:text-5xl text-secClrWhite font-bold'>Set up your pin</h2>
-          <p className='text-accClrYellow text-base lg:text-[18px] font-[400] text-center'>Create a unique memorable pin for seamless transactions</p>
+    <div className="min-h-screen flex items-center justify-center px-4">
+      <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-8 text-center">
+        <div className="w-14 h-14 flex items-center justify-center rounded-full bg-pryClr/10 text-pryClr mx-auto mb-6">
+          <Lock size={28} />
         </div>
 
-        <div className="flex items-center gap-3 justify-center my-4">
-          {[0,1,2,3].map((i) => (
-            <div key={i} className="bg-[#c7c8c8] h-[3rem] w-[3rem] rounded flex items-center justify-center text-xl font-bold">
-              {pin[i] ? '•' : ''}
-            </div>
+        <h1 className="text-2xl font-semibold text-white mb-2">Set Up Your PIN</h1>
+        <p className="text-gray-400 mb-8 text-sm">
+          Create a secure 4-digit PIN to protect your account.
+        </p>
+
+        <div className="flex gap-3 justify-center mb-8">
+          {[0, 1, 2, 3].map((_, index) => (
+            <input
+              key={index}
+              ref={(el) => (inputsRef.current[index] = el)}
+              type="password"
+              maxLength={1}
+              onChange={(e) => handleChange(e, index)}
+              onKeyDown={(e) => handleKeyDown(e, index)}
+              className="w-12 h-12 text-center text-lg font-semibold border border-gray-600 focus:border-pryClr focus:ring-pryClr rounded-xl bg-gray-200 text-gray-800"
+            />
           ))}
         </div>
 
-        <div className="grid grid-cols-3 gap-4 w-[80%] lg:w-[60%]">
-          {numbers.map((num, idx) => (
-            <button type="button" key={idx} onClick={() => handleNumberClick(num)} className="bg-[#dbdcdc] py-3 rounded text-xl font-bold text-secClrBlack">
-              {num}
-            </button>
-          ))}
-          <button type="button" onClick={handleBackspace} className="bg-[#dbdcdc] py-3 rounded text-xl font-bold text-secClrBlack">
-            ⌫
-          </button>
-          <button type="submit" className="bg-accClrYellow py-3 rounded text-xl font-bold text-black col-span-2">
-            OK
-          </button>
-        </div>
-      </form>
+        <button
+          onClick={handleSubmit}
+          className="w-full bg-pryClr hover:bg-pryClr/90 text-white py-3 rounded-xl font-medium transition"
+        >
+          {settingPin ? <Loader2 className="w-full mx-auto animate-spin"/> : "Continue"}
+        </button>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default SetupPin
+export default SetPin;
