@@ -1,7 +1,8 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import { EyeClosed, EyeIcon } from 'lucide-react';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 
 const Withdraw = () => {
   const [toggleWithdraw, setToggleWithdraw] = useState(false);
@@ -11,15 +12,16 @@ const Withdraw = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [pinError, setPinError] = useState('');
   const [pin, setPin] = useState('');
-  const bankDetails = JSON.parse(localStorage.getItem('bankDetails') || '{}');
   const amountRef = useRef(null);
   const navigate = useNavigate();
+  const {getUserDetails} = useContext(AuthContext);
+  const user = getUserDetails()
 
   const triggerWithdrawal = () => {
     if (amountRef.current.value === '') {
       return setErrorMessage('Please provide an amount');
     }
-    if (!bankDetails.account_name || !bankDetails.bank_code || !bankDetails.account_number) {
+    if (!user.account_name || !user.bank_code || !user.account_number) {
       toast.error('Please add bank details in your profile.');
       return;
     }
@@ -73,13 +75,13 @@ const Withdraw = () => {
 
       {toggleWithdraw && (
         <div className="bg-pryClr backdrop-blur-lg rounded-xl p-6 flex flex-col gap-4 shadow-lg border border-accClrYellow/30">
-          {bankDetails.account_name && bankDetails.bank_code && bankDetails.account_number ? (
+          {user.account_name && user.bank_code && user.account_number ? (
             <div className="space-y-4">
               <div className="flex flex-col gap-2">
                 <label className="text-base lg:text-lg font-semibold text-secClrWhite">Bank Name</label>
                 <input
                   type="text"
-                  value={bankDetails.bank_name || 'Unknown Bank'}
+                  value={user.bank_name || 'Unknown Bank'}
                   readOnly
                   className="bg-pryClr/60 backdrop-blur-md rounded-lg p-3 text-base text-secClrWhite border border-secClrWhite/30 outline-none opacity-70 cursor-not-allowed"
                 />
@@ -88,7 +90,7 @@ const Withdraw = () => {
                 <label className="block text-base lg:text-lg font-semibold text-secClrWhite">Account Number</label>
                 <input
                   type="text"
-                  value={bankDetails.account_number}
+                  value={user.account_number}
                   readOnly
                   className="bg-pryClr/60 backdrop-blur-md rounded-lg p-3 text-base text-secClrWhite border border-secClrWhite/30 outline-none opacity-70 cursor-not-allowed"
                 />
@@ -97,7 +99,7 @@ const Withdraw = () => {
                 <label className="block text-base lg:text-lg font-semibold text-secClrWhite">Account Name</label>
                 <input
                   type="text"
-                  value={bankDetails.account_name}
+                  value={user.account_name}
                   readOnly
                   className="bg-pryClr/60 backdrop-blur-md rounded-lg p-3 text-base text-secClrWhite border border-secClrWhite/30 outline-none opacity-70 cursor-not-allowed"
                 />
@@ -141,7 +143,7 @@ const Withdraw = () => {
             <h3 className="text-xl lg:text-2xl font-semibold text-secClrWhite mb-4">Confirm Withdrawal</h3>
             <p className="text-base text-secClrWhite mb-6 leading-relaxed">
               You are about to withdraw <span className="font-bold text-accClrYellow">₦{amountRef.current.value}</span> to{' '}
-              <span className="font-bold">{bankDetails.account_name}</span> ({bankDetails.account_number}).
+              <span className="font-bold">{user.account_name}</span> ({user.account_number}).
             </p>
             <div className="flex gap-4 justify-center">
               <button

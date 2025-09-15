@@ -41,12 +41,7 @@ const Profile = () => {
   const [listOfBanks, setListOfBanks] = useState([]);
   const [isLoadingBanks, setIsLoadingBanks] = useState(false);
   const [isResolvingAccount, setIsResolvingAccount] = useState(false);
-  const [bankDetails, setBankDetails] = useState(() => {
-    const savedDetails = localStorage.getItem('bankDetails');
-    return savedDetails
-      ? JSON.parse(savedDetails)
-      : { bank_code: '', account_name: '', account_number: '', bank_name: '' };
-  });
+  const [bankDetails, setBankDetails] = useState({ bank_code: '', account_name: '', account_number: '', bank_name: '' });
 
   useEffect(() => {
     const fetchApprovedBanks = async () => {
@@ -148,7 +143,7 @@ const Profile = () => {
         bank_name: selectedBank ? selectedBank.name : '',
       };
       setBankDetails(updatedDetails);
-      const res = await authRequestWithToken("/user/profile",profile,"PUT");
+      const res = await authRequestWithToken("/user/profile",updatedDetails,"PUT");
       if (res.success === true) {
         toast.success('Bank details saved successfully!', {
           description: 'Your bank details have been updated.',
