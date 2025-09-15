@@ -1,6 +1,28 @@
-import React from 'react'
+import React from "react";
 
 const Users = () => {
+  // ✅ Dummy data (replace with real data later)
+  const users = [
+    {
+      id: 1,
+      name: "John Doe",
+      email: "john@example.com",
+      referrals: 12,
+      clicks: 80,
+      completed: 10,
+      balance: "₦250",
+    },
+    {
+      id: 2,
+      name: "Jane Smith",
+      email: "jane@example.com",
+      referrals: 5,
+      clicks: 45,
+      completed: 7,
+      balance: "₦150",
+    },
+  ];
+
   return (
     <div className="flex flex-col gap-6 lg:p-6 max-w-full overflow-x-hidden pb-[4rem]">
       <h2 className="text-base lg:text-2xl font-bold text-black tracking-wide">
