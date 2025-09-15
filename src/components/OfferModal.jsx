@@ -10,16 +10,17 @@ const OfferModal = ({ onSave,isOpen,closeAction,updating,defaultOffer,isCreating
     title: "",
     status: "Ongoing",
     description: "",
-    price: "",
-    discountPrice:"",
+    original_price: "",
+    discount_price:"",
     bonus_per_referral:"",
-    endDate: "",
+    end_date: "",
   }
   const [offerDetails, setOfferDetails] = useState(defaultValue);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setOfferDetails({ ...offerDetails, [name]: value });
+    console.log(offerDetails)
   };
 
   const handleFileChange = (e) => {
@@ -31,11 +32,12 @@ const OfferModal = ({ onSave,isOpen,closeAction,updating,defaultOffer,isCreating
         preview: URL.createObjectURL(file),
       });
     }
+    console.log(offerDetails)
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!offerDetails.preview && !offerDetails.image) {
+    if (isCreating && !offerDetails.preview && !offerDetails.image) {
       return toast.error("Please provide an image!");
     }
     try {
@@ -59,10 +61,10 @@ const OfferModal = ({ onSave,isOpen,closeAction,updating,defaultOffer,isCreating
       image:null, 
       title:defaultOffer.title || "", 
       status:defaultOffer.status || "", 
-      price:defaultOffer.original_price || "", 
+      original_price:defaultOffer.original_price || "", 
       description:defaultOffer.description || "",
-      endDate:defaultOffer.end_date || "",
-      discountPrice:defaultOffer.discount_price || "",
+      end_date:defaultOffer.end_date || "",
+      discount_price:defaultOffer.discount_price || "",
       bonus_per_referral:defaultOffer.bonus_per_referral || "",
 
     }) : setOfferDetails(defaultValue)
@@ -170,9 +172,9 @@ const OfferModal = ({ onSave,isOpen,closeAction,updating,defaultOffer,isCreating
               </label>
               <input
                 type="number"
-                name="price"
+                name="original_price"
                 placeholder="Price"
-                value={offerDetails.price}
+                value={offerDetails.original_price}
                 onChange={handleChange}
                 className="w-full border rounded-lg p-2 focus:ring-2 focus:ring-pryClr focus:outline-none text-sm sm:text-base"
                 required
@@ -185,9 +187,9 @@ const OfferModal = ({ onSave,isOpen,closeAction,updating,defaultOffer,isCreating
               </label>
               <input
                 type="number"
-                name="discountPrice"
+                name="discount_price"
                 placeholder="Discounted Price"
-                value={offerDetails.discountPrice}
+                value={offerDetails.discount_price}
                 onChange={handleChange}
                 className="w-full border rounded-lg p-2 focus:ring-2 focus:ring-pryClr focus:outline-none text-sm sm:text-base"
                 // required
@@ -215,8 +217,8 @@ const OfferModal = ({ onSave,isOpen,closeAction,updating,defaultOffer,isCreating
               </label>
               <input
                 type="date"
-                name="endDate"
-                value={offerDetails.endDate}
+                name="end_date"
+                value={offerDetails.end_date}
                 onChange={handleChange}
                 className="w-full border rounded-lg p-2 focus:ring-2 focus:ring-pryClr focus:outline-none text-sm sm:text-base"
                 required

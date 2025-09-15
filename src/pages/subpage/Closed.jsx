@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { Loader2 } from "lucide-react";
 import { AuthContext } from "../../context/AuthContext";
 import assets from "../../assets/assests";
+import Notfound from "../../components/Notfound";
 
 const Closed = ({ isRecent = false }) => {
   const linkRef = useRef(null);
@@ -37,7 +38,10 @@ const Closed = ({ isRecent = false }) => {
             className="animate-spin text-pryClr w-full mx-auto text-[50px]"
             size={50}
           />
-        ) : (
+        ) : 
+        closedOffers.length === 0 ? (
+          <Notfound title={"No Offers"} message={"Looks like there are no closed offers yet."}/>
+        ):(
           visibleOffers.map((offer, key) => (
             <div
               key={key}

@@ -3,6 +3,7 @@ import { Check, Copy, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { AuthContext } from "../../context/AuthContext";
 import assets from "../../assets/assests";
+import Notfound from "../../components/Notfound";
 
 const Ongoing = ({isRecent = false}) => {
   const linkRef = useRef(null);
@@ -52,7 +53,10 @@ const Ongoing = ({isRecent = false}) => {
     <div className={`${isRecent ? 'pb-0' : 'pb-24 lg:pb-6'}`}>
       <div className="flex flex-col gap-3">
         {
-          isFetching ? (<Loader2 className="animate-spin text-pryClr w-full mx-auto text-[50px]" size={50}/>):(
+          isFetching ? (<Loader2 className="animate-spin text-pryClr w-full mx-auto text-[50px]" size={50}/>):
+          ongoingOffers.length === 0 ? (
+            <Notfound title={"No Offers"} message={"No ongoing offers available right now. Please check back later."}/>
+          ):(
             visibleOffers.map((offer, key) => (
               <div
                 key={key}

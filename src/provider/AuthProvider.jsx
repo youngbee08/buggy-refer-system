@@ -106,10 +106,10 @@ const AuthProvider = ({children}) => {
       const res = await fetch(`${apiUrl}/api${reqEndpoint}`, {
         method:reqType,
         headers:{
-          "Content-Type":"application/json",
-          "Authorization":`Bearer ${token}`
+          "Authorization":`Bearer ${token}`,
+          ...(reqBody instanceof FormData ? {} : {"Content-Type":"application/json",}),
         },
-        body:JSON.stringify(reqBody)
+        body:reqBody instanceof FormData ? reqBody : JSON.stringify(reqBody),
       })
       const data = await res.json();
       return data

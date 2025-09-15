@@ -19,6 +19,7 @@ import RedirectRoute from "./components/redirectRoute";
 import Offers from "./pages/Offers";
 import Users from "./pages/Users";
 import Withdrawals from "./pages/Withdrawals";
+import Notfound from "./components/Notfound";
 
 // import Signup from "./pages/Signup";
 // import Login from "./pages/Login";
@@ -79,6 +80,7 @@ function App() {
               element={<Maindashboard children={<Profile />} />}
             />
           </Route>
+          <Route path="*" element={<Notfound isLost={true}/>}/>
         </Routes>
         <Toaster richColors closeButton/>
       </AuthProvider>

@@ -22,12 +22,15 @@ const Offers = () => {
       formData.append("image", offerDetails.image)
       formData.append("status", offerDetails.status)
       formData.append("description", offerDetails.description)
-      formData.append("original_price", offerDetails.price)
-      formData.append("discount_price", offerDetails.discountPrice)
+      formData.append("original_price", offerDetails.original_price)
+      formData.append("discount_price", offerDetails.discount_price)
       formData.append("bonus_per_referral", offerDetails.bonus_per_referral)
+      formData.append("end_date", offerDetails.end_date)
       const res = await authRequestWithToken("/offers",formData,"POST");
       if (res?.success === true) {
         toast.success("Offer created successfully");
+        setIsModalOpen(false)
+        loadOffers()
       }else{
         toast.error("An unexpected error occured while creating offer")
       }
@@ -80,7 +83,7 @@ const Offers = () => {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:pb-0 pb-16">
             {offers.map((offer, index) => (
-              <OfferCard key={index} offer={offer}/>
+              <OfferCard key={index} offer={offer} loadOffers={loadOffers}/>
             ))}
           </div>
         )

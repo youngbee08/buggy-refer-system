@@ -43,7 +43,9 @@ const TopBar = () => {
     } catch (error) {
       console.log(error)
     } finally{
-      setLoggingOut(false)
+      setTimeout(() => {
+        setLoggingOut(false)
+      }, 2000);
     }
   }
 
