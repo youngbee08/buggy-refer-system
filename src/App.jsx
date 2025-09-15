@@ -80,7 +80,7 @@ function App() {
             />
           </Route>
         </Routes>
-        <Toaster richColors/>
+        <Toaster richColors closeButton/>
       </AuthProvider>
     </>
   ); 

@@ -5,7 +5,7 @@ import { Wallet, MousePointerClick, CheckCircle, Users } from "lucide-react";
 const AdminDashboard = () => {
   return (
     <div className="space-y-6">
-  <p className="text-secClrBlack capitalize text-2xl font-semibold tracking-wide">
+  <p className="text-secClrBlack capitalize text-xl lg:text-2xl font-semibold tracking-wide">
     Overview
   </p>
 

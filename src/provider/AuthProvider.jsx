@@ -51,6 +51,13 @@ const AuthProvider = ({children}) => {
 
     } catch (error) {
       console.log(error)
+      if (error.message === `Unexpected token '<', "<!DOCTYPE "... is not valid JSON`) {
+        if (location.pathname !== "/") {
+          localStorage.removeItem("authToken")
+          localStorage.removeItem("userData")
+          navigate("/login")
+        }
+      }
       toast.error(error)
     }
   };
