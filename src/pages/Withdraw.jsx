@@ -62,7 +62,7 @@ const Withdraw = () => {
         </div>
         <div className="flex flex-col gap-4 lg:flex-row lg:items-center">
           <h2 className="text-3xl lg:text-5xl font-extrabold text-accClrYellow drop-shadow-lg">
-            {toggleBalance ? '₦5,000' : '****'}
+            {toggleBalance ? `₦${user.balance}` : '****'}
           </h2>
           <button
             className="bg-accClrPink text-secClrWhite rounded-lg px-6 py-2 text-base lg:text-lg font-semibold hover:bg-accClrPink/90 transition-all duration-300 transform hover:scale-105"

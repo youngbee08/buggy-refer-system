@@ -103,9 +103,9 @@ const Signup = () => {
     } catch (err) {
       setError(err.message);
       console.error("Registration error:", err);
-      toast.error(error)
       if (err.message === `Failed to fetch`) {
         toast.error('An unexpected error occured while signing up, please try again')
+      }else{error !== "" && toast.error(error);
       }
     } finally {
       setLoading(false);

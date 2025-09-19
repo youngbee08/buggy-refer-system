@@ -98,13 +98,13 @@ const OfferCard = ({ offer,loadOffers }) => {
             <strong className="font-bold">Description:</strong> {offer.description}
           </p>
           <p className="text-sm text-gray-600 my-1">
-            <strong className="font-bold">Price:</strong> ${offer.original_price}
+            <strong className="font-bold">Price:</strong> ₦{offer.original_price}
           </p>
           <p className="text-sm text-gray-600 my-1">
-            <strong className="font-bold">Discount Price:</strong> {offer.discount_price}
+            <strong className="font-bold">Discount Price:</strong> ₦{offer.discount_price}
           </p>
           <p className="text-sm text-gray-600 my-1">
-            <strong className="font-bold">Bonus per referral:</strong> {offer.bonus_per_referral}
+            <strong className="font-bold">Bonus per referral:</strong> ₦{offer.bonus_per_referral}
           </p>
           <p className="text-sm text-gray-600 my-1">
             <strong className="font-bold">End Date:</strong> {offer.end_date}

@@ -60,7 +60,7 @@ const UserDashboard = () => {
             </div>
             <div className="flex items-center gap-5">
               <h2 className="text-3xl lg:text-4xl font-extrabold mt-3 text-accClrYellow">
-                {showBalance ? user.balance : "****"}
+                {showBalance ?`₦${user.balance}` : "****"}
               </h2>
               <button
                 onClick={() => setShowBalance(!showBalance)}

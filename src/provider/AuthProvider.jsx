@@ -132,16 +132,23 @@ const AuthProvider = ({children}) => {
   };
 
   const fetchUserDetails = async ()=>{
-    const accountType = checkAccountType();
-    if (accountType === "user") {
-      const res = await getRequestWithToken("/user/profile");
-      setUser(res?.user);
-      localStorage.setItem("userData", JSON.stringify(res.user))
-    }
+    const res = await getRequestWithToken(`/user/profile`);
+    setUser(res?.user);
+    localStorage.setItem("userData", JSON.stringify(res.user))
   };
-
+  const fetchAdminDetails = async ()=>{
+    const res = await getRequestWithToken(`/admin/profile`);
+    setUser(res?.user);
+    localStorage.setItem("userData", JSON.stringify(res.user))
+  };
+  
   useEffect(() => {
-   fetchUserDetails()
+   if (user) {
+    const accountType = checkAccountType();
+    if (accountType) {
+      accountType === "admin" ? fetchAdminDetails() : fetchUserDetails()
+    }
+   }
   }, [])
   
 
