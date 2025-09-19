@@ -15,7 +15,7 @@ import SetupPin from "./pages/subpage/SetPin";
 import { Toaster } from "sonner";
 import AuthProvider from "./provider/AuthProvider";
 import ProtectedRoute from "./components/ProtectedRoute";
-import RedirectRoute from "./components/redirectRoute";
+import RedirectRoute from "./components/RedirectRoute";
 import Offers from "./pages/Offers";
 import Users from "./pages/Users";
 import Withdrawals from "./pages/Withdrawals";
